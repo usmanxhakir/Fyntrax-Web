@@ -1,11 +1,5 @@
 {
   "version": 2,
- 
-    "GROQ_API_KEY": "@groq_api_key"
-  },
-
-{
-  "version": 2,
   "outputDirectory": ".",
   "rewrites": [
     { "source": "/features", "destination": "/pages/features/index.html" },
