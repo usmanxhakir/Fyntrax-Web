@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "env": {
+    "GROQ_API_KEY": "@groq_api_key"
+  },
+  "rewrites": [
+    { "source": "/features", "destination": "/pages/features/index.html" },
+    { "source": "/about", "destination": "/pages/about/index.html" },
+    { "source": "/pricing", "destination": "/pages/pricing/index.html" },
+    { "source": "/blog", "destination": "/pages/blog/index.html" },
+    { "source": "/contact", "destination": "/pages/contact/index.html" },
+    { "source": "/demo", "destination": "/pages/demo/index.html" },
+    { "source": "/register", "destination": "/pages/auth/register.html" },
+    { "source": "/login", "destination": "/pages/auth/login.html" },
+    { "source": "/get-started", "destination": "/pages/auth/get-started.html" }
+  ]
+}
+{
+  "version": 2,
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/features", "destination": "/pages/features/index.html" },
+    { "source": "/about", "destination": "/pages/about/index.html" },
+    { "source": "/pricing", "destination": "/pages/pricing/index.html" },
+    { "source": "/blog", "destination": "/pages/blog/index.html" },
+    { "source": "/demo", "destination": "/pages/demo/index.html" },
+    { "source": "/contact", "destination": "/pages/contact/index.html" }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "fyntrax-homepage",
+  "version": "1.0.0",
+  "description": "Landing page for Fyntrax - Accounting software that actually thinks",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=3000",
+    "dev": "live-server --port=3000 --open=/",
+    "build": "node scripts/build.js",
+    "vercel-build": "npm run build"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "keywords": ["accounting", "software", "landing-page"],
+  "author": "",
+  "license": "ISC"
+}

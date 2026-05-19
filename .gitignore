@@ -1,0 +1,14 @@
+# Node modules
+node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Misc
+.env
+js/config.js
+config.js

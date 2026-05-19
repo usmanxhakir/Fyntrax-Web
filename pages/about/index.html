@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — Fyntrax</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href=".href="/css/style.css">
+    
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #7c3aed;
+            --primary-h: #6d28d9;
+            --dark: #0f172a;
+            --g50: #f8fafc;
+            --g200: #e2e8f0;
+            --g500: #64748b;
+            --g700: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fff;
+            color: var(--g700);
+            overflow-x: hidden;
+        }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            position: fixed; top: 20px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            background: rgba(248, 250, 252, 0.15);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 100px;
+            padding: 10px 10px 10px 24px;
+            display: flex; align-items: center; gap: 4px;
+        }
+        .nav-logo { margin-right: 20px; display: flex; align-items: center; }
+        .nav-logo img { height: 26px; display: block; }
+        .navbar a {
+            color: rgba(255,255,255,0.55);
+            text-decoration: none; font-size: 14px; font-weight: 500;
+            padding: 7px 15px; border-radius: 100px;
+            transition: color .3s, background .3s;
+        }
+        .navbar a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+        .navbar a.active { color: #fff; background: rgba(124,58,237,0.35); }
+        /* ─── NAVBAR SCROLLED STATE ─── */
+        .navbar.scrolled a { color: #64748b; }
+        .navbar.scrolled a:hover { color: #0f172a; background: rgba(124,58,237,0.1); }
+        .navbar.scrolled a.active { color: #0f172a; background: #f1f5f9; }
+        .navbar .nav-cta { background: var(--primary); color: #fff !important; font-weight: 600 !important; margin-left: 8px; }
+        .navbar .nav-cta:hover { background: var(--primary-h) !important; }
+
+        /* ─── HERO ─── */
+        .hero {
+            background: var(--dark);
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            padding: 140px 24px 120px;
+            position: relative; overflow: hidden;
+        }
+        .hero-dots {
+            position: absolute; inset: 0;
+            background-image: radial-gradient(circle, rgba(124,58,237,.22) 1px, transparent 1px);
+            background-size: 30px 30px;
+            mask-image: radial-gradient(ellipse 85% 65% at 50% 50%, black, transparent);
+            -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 50%, black, transparent);
+        }
+        .hero-glow {
+            position: absolute;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(124,58,237,.12) 0%, transparent 70%);
+            top: 50%; left: 50%; transform: translate(-50%,-50%);
+            pointer-events: none;
+        }
+        .hero-badge {
+            position: relative; z-index: 1;
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(124,58,237,.12);
+            border: 1px solid rgba(124,58,237,.3);
+            color: #c4b5fd;
+            font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+            padding: 7px 18px; border-radius: 100px; margin-bottom: 36px;
+        }
+        .badge-pulse {
+            width: 6px; height: 6px; border-radius: 50%; background: #7c3aed;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%,100% { opacity:1; transform:scale(1); }
+            50% { opacity:.4; transform:scale(1.4); }
+        }
+        .hero-title {
+            position: relative; z-index: 1;
+            font-size: clamp(38px, 6.5vw, 72px);
+            font-weight: 800; color: #fff;
+            line-height: 1.12; letter-spacing: -.035em;
+            max-width: 860px; margin-bottom: 24px;
+            cursor: default;
+        }
+        .hero-title .char {
+            display: inline-block;
+            transition: color .08s linear, transform .08s linear;
+            will-change: color, transform;
+        }
+        .hero-title .sp { display: inline-block; width: .28em; }
+        .hero-sub {
+            position: relative; z-index: 1;
+            font-size: 18px; color: rgba(255,255,255,.45);
+            max-width: 560px; line-height: 1.75;
+        }
+        .scroll-line {
+            position: absolute; bottom: 40px; left: 50%;
+            transform: translateX(-50%); z-index: 1;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            color: rgba(255,255,255,.2); font-size: 11px; font-weight: 600;
+            letter-spacing: .1em; text-transform: uppercase;
+        }
+        .scroll-line::before {
+            content: '';
+            width: 1px; height: 48px;
+            background: linear-gradient(to bottom, rgba(124,58,237,.7), transparent);
+            animation: sdown 2s ease-in-out infinite;
+        }
+        @keyframes sdown {
+            0%   { transform: scaleY(0); transform-origin: top; }
+            45%  { transform: scaleY(1); transform-origin: top; }
+            55%  { transform: scaleY(1); transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+
+            /* ─── FOUNDER ─── */
+            .founder-section { padding: 110px 24px; background: #fff; }
+            .founder-inner {
+                max-width: 1080px; margin: 0 auto;
+                display: grid; grid-template-columns: 360px 1fr;
+                gap: 80px; align-items: center;
+            }
+            .photo-col { display: flex; justify-content: center; position: relative; }
+            .photo-ring {
+                width: 300px; height: 300px; border-radius: 50%;
+                padding: 3px;
+                background: conic-gradient(from 135deg, #7c3aed, #a78bfa, #6d28d9, #7c3aed);
+                position: relative; flex-shrink: 0;
+            }
+            .photo-ring::after {
+                content: '';
+                position: absolute; inset: -16px; border-radius: 50%;
+                background: radial-gradient(circle, rgba(124,58,237,.18) 0%, transparent 70%);
+                animation: rglow 3s ease-in-out infinite alternate;
+                pointer-events: none;
+            }
+            @keyframes rglow {
+                from { opacity:.5; transform:scale(.93); }
+                to   { opacity:1;  transform:scale(1.06); }
+            }
+            .photo-inner {
+    width: 100%; height: 100%; border-radius: 50%;
+    background: #1e293b; overflow: hidden;
+    position: relative;
+}
+.photo-inner img {
+    position: absolute;
+    width: 115%; height: 115%;
+    object-fit: cover;
+    top: 50%; left: 50%;           /* tweak left: 45%/55% to shift horizontally */
+    transform: translate(-50%, -52%); /* tweak second value to shift vertically */
+    border-radius: 0; display: block;
+}
+            .photo-ph {
+                display: flex; align-items: center; justify-content: center;
+                width: 100%; height: 100%;
+            }
+            .photo-ph svg { width: 110px; height: 110px; opacity: .22; color: #a78bfa; }
+
+            .float-badge {
+                position: absolute;
+                background: #fff; border: 1px solid var(--g200);
+                border-radius: 12px; padding: 9px 15px;
+                font-size: 12px; font-weight: 700; color: var(--g700);
+                box-shadow: 0 4px 24px rgba(0,0,0,.09);
+                display: flex; align-items: center; gap: 7px;
+                white-space: nowrap;
+            }
+            .float-badge:nth-child(2) { animation: fb 4s ease-in-out infinite; }
+            .float-badge:nth-child(3) { animation: fb 4s ease-in-out -1.3s infinite; }
+            .float-badge:nth-child(4) { animation: fb 4s ease-in-out -2.6s infinite; }
+            @keyframes fb {
+                0%,100% { transform:translateY(0); }
+                50%      { transform:translateY(-5px); }
+            }
+            .bd { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+            .fb-1 { top: 8%;     right: -18px; }
+            .fb-2 { bottom: 22%; right: -32px; }
+            .fb-3 { bottom: 4%;  left: 4px; }
+
+            .bio-col { display: flex; flex-direction: column; gap: 18px; }
+            .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--primary); }
+            .founder-name { font-size: 42px; font-weight: 800; color: var(--dark); letter-spacing: -.025em; line-height: 1.08; }
+            .founder-role { font-size: 15px; color: var(--g500); font-weight: 500; }
+            .founder-desc { font-size: 16px; color: var(--g500); line-height: 1.8; max-width: 500px; }
+
+            .cred-row { display: flex; flex-wrap: wrap; gap: 8px; }
+            .cred-chip {
+                display: inline-flex; align-items: center; gap: 7px;
+                background: rgba(124,58,237,.07); border: 1px solid rgba(124,58,237,.18);
+                color: var(--primary); font-size: 13px; font-weight: 600;
+                padding: 7px 15px; border-radius: 100px;
+            }
+            .cred-chip svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+            .social-row { display: flex; gap: 10px; margin-top: 4px; }
+            .social-btn {
+                width: 42px; height: 42px; border-radius: 10px;
+                background: var(--g50); border: 1px solid var(--g200);
+                display: flex; align-items: center; justify-content: center;
+                color: var(--g500); text-decoration: none; transition: all .2s;
+            }
+            .social-btn:hover {
+                background: var(--primary); border-color: var(--primary);
+                color: #fff; transform: translateY(-3px);
+                box-shadow: 0 6px 16px rgba(124,58,237,.35);
+            }
+            .social-btn svg { width: 18px; height: 18px; }
+
+        /* ─── STORY ─── */
+        .story-section { padding: 110px 24px; background: var(--g50); }
+        .story-inner { max-width: 720px; margin: 0 auto; }
+        .section-label { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--primary); margin-bottom: 14px; }
+        .section-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; color: var(--dark); letter-spacing: -.025em; line-height: 1.15; margin-bottom: 44px; }
+        .story-para { font-size: 17px; line-height: 1.9; color: #475569; padding-left: 22px; border-left: 2px solid transparent; transition: border-color .35s; margin-bottom: 28px; }
+        .story-para:last-child { margin-bottom: 0; }
+        .story-para:hover { border-left-color: var(--primary); }
+        .story-para strong { color: var(--dark); font-weight: 600; }
+
+        /* ─── VALUES ─── */
+        .values-section { padding: 110px 24px; background: #fff; }
+        .values-inner { max-width: 1080px; margin: 0 auto; }
+        .values-header { text-align: center; margin-bottom: 64px; }
+        .values-title { font-size: clamp(28px, 4vw, 38px); font-weight: 800; color: var(--dark); letter-spacing: -.025em; margin-bottom: 14px; }
+        .values-sub { font-size: 16px; color: var(--g500); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+        .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .value-card {
+            background: var(--g50); border: 1px solid var(--g200);
+            border-radius: 16px; padding: 36px 28px;
+            position: relative; overflow: hidden;
+            transition: transform .3s, box-shadow .3s, border-color .3s;
+        }
+        .value-card::after {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, var(--primary), #a78bfa);
+            transform: scaleX(0); transform-origin: left; transition: transform .4s;
+        }
+        .value-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(124,58,237,.1); border-color: rgba(124,58,237,.2); }
+        .value-card:hover::after { transform: scaleX(1); }
+        .value-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            background: rgba(124,58,237,.1);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--primary); margin-bottom: 20px;
+        }
+        .value-icon svg { width: 22px; height: 22px; }
+        .value-h { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+        .value-p { font-size: 14px; color: var(--g500); line-height: 1.75; }
+
+        /* ─── BUILT ON ─── */
+        .built-section { padding: 110px 24px; background: var(--dark); position: relative; overflow: hidden; }
+        .built-dots {
+            position: absolute; inset: 0;
+            background-image: radial-gradient(circle, rgba(124,58,237,.18) 1px, transparent 1px);
+            background-size: 26px 26px;
+            mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+            -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+        }
+        .built-inner { max-width: 760px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+        .built-label { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(167,139,250,.7); margin-bottom: 14px; }
+        .built-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; color: #fff; letter-spacing: -.025em; margin-bottom: 12px; }
+        .built-sub { font-size: 16px; color: rgba(255,255,255,.38); margin-bottom: 56px; line-height: 1.7; }
+        .built-cards { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .built-card {
+            background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+            border-radius: 16px; padding: 32px 44px;
+            display: flex; flex-direction: column; align-items: center; gap: 14px;
+            min-width: 190px; transition: all .3s;
+        }
+        .built-card:hover {
+            background: rgba(255,255,255,.08); border-color: rgba(124,58,237,.35);
+            transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,.3);
+        }
+        .built-logo {
+            width: 56px; height: 56px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; font-weight: 800;
+        }
+        .logo-claude { background: linear-gradient(135deg, #d97447, #b5511f); }
+        .logo-claude svg { width: 30px; height: 30px; }
+        .logo-ag { background: linear-gradient(135deg, #0ea5e9, #0369a1); color: #fff; font-size: 15px; font-weight: 800; letter-spacing: -.02em; }
+        .built-name { font-size: 15px; font-weight: 600; color: rgba(255,255,255,.75); }
+        .built-cap  { font-size: 12px; color: rgba(255,255,255,.3); }
+
+        /* ─── CTA ─── */
+        .cta-section { padding: 120px 24px; background: #fff; text-align: center; position: relative; overflow: hidden; }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            width: 500px; height: 500px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(124,58,237,.07) 0%, transparent 70%);
+            top: 50%; left: 50%; transform: translate(-50%,-50%);
+        }
+        .cta-inner { max-width: 580px; margin: 0 auto; position: relative; }
+        .cta-title { font-size: clamp(32px, 5vw, 48px); font-weight: 800; color: var(--dark); letter-spacing: -.03em; margin-bottom: 16px; }
+        .cta-sub { font-size: 17px; color: var(--g500); margin-bottom: 44px; line-height: 1.75; }
+        .cta-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--primary); color: #fff;
+            font-size: 16px; font-weight: 600; padding: 15px 34px; border-radius: 10px;
+            text-decoration: none; box-shadow: 0 6px 24px rgba(124,58,237,.35);
+            transition: all .2s;
+        }
+        .cta-btn:hover { background: var(--primary-h); transform: translateY(-3px); box-shadow: 0 12px 36px rgba(124,58,237,.45); }
+        .cta-btn svg { width: 18px; height: 18px; }
+
+        /* ─── FOOTER ─── */
+        .footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,.06); padding: 44px 24px; }
+        .footer-inner { max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .footer-logo img { height: 22px; opacity: .55; }
+        .footer-copy { font-size: 13px; color: rgba(255,255,255,.28); }
+        .footer-links { display: flex; gap: 22px; }
+        .footer-links a { font-size: 13px; color: rgba(255,255,255,.28); text-decoration: none; transition: color .2s; }
+        .footer-links a:hover { color: rgba(255,255,255,.65); }
+
+        /* ─── REVEAL ─── */
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s, transform .6s; }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 920px) {
+            .founder-inner { grid-template-columns: 1fr; gap: 56px; }
+            .photo-col { order: -1; }
+            .float-badge { display: none; }
+            .values-grid { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+        }
+        @media (max-width: 640px) {
+            .navbar { width: calc(100% - 32px); padding: 8px 8px 8px 18px; }
+            .founder-name { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar">
+    <a href="../../" class="nav-logo">
+        <img src="../../images/logo.png" alt="Fyntrax">
+    </a>
+    <a href="../../">Home</a>
+    <a href="../features/">Features</a>
+    <a href="./" class="active">About</a>
+    <a href="../pricing/">Pricing</a>
+    <a href="../demo/">Demo</a>
+    <a href="../blog/">Blog</a>
+    <a href="https://join.fyntrax.site" class="nav-cta">Get Started</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+    <div class="hero-dots"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-badge"><span class="badge-pulse"></span>Our Story</div>
+    <h1 class="hero-title" id="heroTitle">We built the accounting tool we always wanted.</h1>
+    <p class="hero-sub">Fyntrax started because small business owners deserve real accounting software — not spreadsheets, not bloatware.</p>
+    <div class="scroll-line">Scroll</div>
+</section>
+
+<!-- ═══ FOUNDER ═══ -->
+<section class="founder-section">
+    <div class="founder-inner">
+        <div class="photo-col">
+            <div class="photo-ring">
+                <div class="photo-inner">
+                    <!-- ↓ Swap src to your photo path when ready -->
+                    <img src="../../images/founder.png" alt="Founder" id="founderImg">
+                    <div class="photo-ph" id="photoPh">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="float-badge fb-1"><span class="bd"></span>CA Finalist</div>
+            <div class="float-badge fb-2"><span class="bd"></span>QuickBooks Pro Advisor</div>
+            <div class="float-badge fb-3"><span class="bd"></span>1+ yr Bookkeeping</div>
+        </div>
+
+        <div class="bio-col reveal">
+            <span class="eyebrow">The Builder</span>
+            <h2 class="founder-name">Founder &amp;<br>Lead Developer</h2>
+            <p class="founder-role">CA Finalist &middot; QuickBooks Pro Advisor &middot; Bookkeeper</p>
+            <p class="founder-desc">I built Fyntrax out of frustration — and expertise. As a CA finalist with real-world bookkeeping experience, I knew exactly what small businesses were missing: proper double-entry accounting, without the enterprise complexity or the bloated price tag. So I built it.</p>
+            <div class="cred-row">
+                <span class="cred-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    CA Finalist
+                </span>
+                <span class="cred-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                    QuickBooks Pro Advisor
+                </span>
+                <span class="cred-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    1+ yr Bookkeeping
+                </span>
+            </div>
+            <div class="social-row">
+                <a href="#" class="social-btn" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                <a href="#" class="social-btn" aria-label="Twitter / X">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="#" class="social-btn" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ STORY ═══ -->
+<section class="story-section">
+    <div class="story-inner reveal">
+        <div class="section-label">The Story</div>
+        <h2 class="section-title">Why I built Fyntrax.</h2>
+        <p class="story-para"><strong>I've sat across from small business owners who were drowning in spreadsheets.</strong> As a CA finalist doing real bookkeeping work, I watched clients struggle between tools that were either too complex or too shallow. QuickBooks felt like it was built for accountants, not the person running the business. FreshBooks looked great but quietly skipped proper accrual accounting. And spreadsheets — everyone's fallback — don't scale, don't catch errors, and don't give you any real financial picture.</p>
+        <p class="story-para"><strong>So I built Fyntrax myself.</strong> I knew exactly what was missing because I'd been doing the work manually for over a year. I wanted full double-entry accrual accounting — the real standard — but with a UI that didn't require a three-day onboarding. I also wanted an AI that actually understood accounting, not just keywords. One that could explain a journal entry, flag something off, or answer a bookkeeping question the way I would. So I built that too.</p>
+        <p class="story-para"><strong>This is personal for me.</strong> I'm not a VC-backed team with a generic mission statement — I'm one person who spent a long time inside the problem before writing a single line of code. Every feature in Fyntrax exists because I either needed it, or watched someone else need it. My goal is simple: make professional-grade accounting accessible to every small business, not just the ones that can afford a full-time accountant.</p>
+    </div>
+</section>
+
+<!-- ═══ VALUES ═══ -->
+<section class="values-section">
+    <div class="values-inner">
+        <div class="values-header reveal">
+            <div class="section-label">What We Stand For</div>
+            <h2 class="values-title">Built on principles, not compromises.</h2>
+            <p class="values-sub">Every decision at Fyntrax comes back to the same question: is this actually good for the business owner?</p>
+        </div>
+        <div class="values-grid">
+            <div class="value-card reveal">
+                <div class="value-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="3" x2="12" y2="21"/>
+                        <path d="M3 9l4-4 4 4"/><path d="M17 15l4-4-4-4"/>
+                        <line x1="5" y1="21" x2="19" y2="21"/>
+                    </svg>
+                </div>
+                <h3 class="value-h">Accounting-First</h3>
+                <p class="value-p">We don't cut corners. Every number in Fyntrax ties back to a balanced journal entry. Real double-entry. Real accrual. No shortcuts, ever.</p>
+            </div>
+            <div class="value-card reveal">
+                <div class="value-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </div>
+                <h3 class="value-h">Transparent</h3>
+                <p class="value-p">No hidden fees. No locked features. No surprise limitations. What you see in our pricing is exactly what you get — nothing more, nothing less.</p>
+            </div>
+            <div class="value-card reveal">
+                <div class="value-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                </div>
+                <h3 class="value-h">Built for Speed</h3>
+                <p class="value-p">You're running a business, not learning software. Every workflow in Fyntrax is designed to get you in, done, and back to what actually matters.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ BUILT ON ═══ -->
+<section class="built-section">
+    <div class="built-dots"></div>
+    <div class="built-inner reveal">
+        <div class="built-label">Under the Hood</div>
+        <h2 class="built-title">What powers Fyntrax</h2>
+        <p class="built-sub">Modern tools we trust completely — chosen for reliability, not hype.</p>
+        <div class="built-cards">
+            <div class="built-card">
+                <div class="built-logo logo-claude">
+                    <svg viewBox="0 0 40 40" fill="white" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23.8 8L31 32h-5.4l-1.5-5.2h-8.2L14.4 32H9L16.2 8h7.6zm-1.5 14.6L20 12.8l-2.3 9.8h4.6z"/>
+                    </svg>
+                </div>
+                <span class="built-name">Claude AI</span>
+                <span class="built-cap">AI Accounting Agent</span>
+            </div>
+            <div class="built-card">
+                <div class="built-logo logo-ag">AG</div>
+                <span class="built-name">Antigravity</span>
+                <span class="built-cap">Infrastructure</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section">
+    <div class="cta-inner reveal">
+        <h2 class="cta-title">Come see what we've built.</h2>
+        <p class="cta-sub">Fyntrax is accounting software built by someone who actually does accounting. Try it free — no credit card required.</p>
+        <a href="https://join.fyntrax.site" class="cta-btn">
+            Try Fyntrax Free
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+    </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-logo">
+            <img src="../../images/logo.png" alt="Fyntrax">
+        </div>
+        <span class="footer-copy">&copy; 2025 Fyntrax. All rights reserved.</span>
+        <div class="footer-links">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/contact">Contact</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+/* ══ NAVBAR SCROLL TOGGLE ══ */
+window.addEventListener('scroll', () => {
+    document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.8);
+});
+
+/* ══ CURSOR PROXIMITY EFFECT ══ */
+(function () {
+    const el = document.getElementById('heroTitle');
+    const text = el.textContent.trim();
+    el.textContent = '';
+    el.setAttribute('aria-label', text);
+
+    const chars = [];
+    text.split('').forEach(ch => {
+        const s = document.createElement('span');
+        if (ch === ' ') {
+            s.className = 'sp'; s.setAttribute('aria-hidden', 'true');
+        } else {
+            s.className = 'char'; s.textContent = ch; s.setAttribute('aria-hidden', 'true');
+            chars.push(s);
+        }
+        el.appendChild(s);
+    });
+
+    const RADIUS = 160;
+    let mx = -9999, my = -9999;
+    const FR = { r:255, g:255, b:255 };
+    const TO = { r:196, g:181, b:253 };
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    function tick() {
+        chars.forEach(s => {
+            const r = s.getBoundingClientRect();
+            const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+            const d = Math.sqrt((mx-cx)**2 + (my-cy)**2);
+            const p = Math.max(0, 1 - d / RADIUS);
+            s.style.color = `rgb(${Math.round(lerp(FR.r,TO.r,p))},${Math.round(lerp(FR.g,TO.g,p))},${Math.round(lerp(FR.b,TO.b,p))})`;
+            s.style.transform = `translateY(${-p*7}px) scale(${1+p*.09})`;
+        });
+        requestAnimationFrame(tick);
+    }
+    tick();
+})();
+
+/* ══ SCROLL REVEAL ══ */
+(function () {
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach((e, i) => {
+            if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+        el.style.transitionDelay = (i % 3) * 90 + 'ms';
+        obs.observe(el);
+    });
+})();
+
+/* ══ PHOTO FALLBACK ══ */
+(function () {
+    const img = document.getElementById('founderImg');
+    const ph  = document.getElementById('photoPh');
+    img.onerror = () => { img.style.display = 'none'; ph.style.display = 'flex'; };
+    if (!img.src || img.src.includes('PHOTO_PLACEHOLDER')) {
+        img.style.display = 'none'; ph.style.display = 'flex';
+    }
+})();
+</script>
+</body>
+</html>

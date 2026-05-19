@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features — Fyntrax</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',sans-serif; background:#fff; color:#334155; line-height:1.5; }
+img { max-width:100%; display:block; }
+a { text-decoration:none; color:inherit; }
+
+/* ════════════════════════════════
+   NAV — Pill Glass
+════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: calc(100% - 48px);
+  max-width: 920px;
+  background: rgba(248, 250, 252, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 999px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+nav.scrolled {
+  background: rgba(248, 250, 252, 0.85);
+  border-color: rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.nav-logo { height: 28px; width: auto; display: block; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 14px;
+  font-weight: 500;
+}
+/* default — over light backgrounds */
+.nav-links a {
+  color: #334155;
+  padding: 6px 12px;
+  border-radius: 999px;
+  transition: color 0.2s, background 0.2s;
+}
+.nav-links a:hover { color: #7c3aed; }
+.nav-links a.active {
+  color: #7c3aed;
+  font-weight: 600;
+}
+/* scrolled state */
+nav.scrolled .nav-links a { color: #64748b; }
+nav.scrolled .nav-links a:hover { color: #0f172a; }
+nav.scrolled .nav-links a.active { color: #0f172a; background: #f1f5f9; }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.btn-ghost {
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+  background: transparent;
+  border: none;
+  transition: color 0.2s;
+}
+.btn-ghost:hover { color: #0f172a; }
+.btn-primary {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: #7c3aed;
+  border: 1px solid #7c3aed;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: #6d28d9; border-color: #6d28d9; }
+
+/* ════════════════════════════════
+   HERO
+════════════════════════════════ */
+.f-hero {
+  padding: 120px 24px 80px;
+  text-align: center;
+  background-color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.f-hero-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: radial-gradient(circle at center, #FFF991 0%, transparent 70%);
+  opacity: 0.6;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.f-hero-inner { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; }
+.f-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(124,58,237,0.08);
+  border: 1px solid rgba(124,58,237,0.2);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #7c3aed;
+  margin-bottom: 28px;
+}
+.f-hero-badge-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #7c3aed;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+.f-hero h1 {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+.f-hero h1 span { color: #7c3aed; }
+.f-hero-sub {
+  font-size: 18px;
+  color: #64748b;
+  line-height: 1.7;
+  max-width: 580px;
+  margin: 0 auto 36px;
+}
+.f-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: #7c3aed;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(124,58,237,0.3);
+  transition: all 0.2s ease;
+}
+.f-hero-cta:hover { background: #6d28d9; transform: translateY(-2px); box-shadow: 0 6px 22px rgba(124,58,237,0.4); }
+
+@media (max-width: 640px) {
+  .f-hero { padding: 100px 20px 64px; }
+  .f-hero h1 { font-size: 32px; }
+  .f-hero-sub { font-size: 16px; }
+}
+
+/* ════════════════════════════════
+   STATS + CHECKLIST
+════════════════════════════════ */
+.f-overview {
+  padding: 80px 24px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+.f-overview-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+.f-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #e2e8f0;
+  gap: 1px;
+}
+.f-stat {
+  background: #fff;
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.f-stat-num {
+  font-size: 44px;
+  font-weight: 800;
+  color: #7c3aed;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.f-stat-label { font-size: 14px; font-weight: 500; color: #64748b; line-height: 1.45; }
+.f-checklist-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.f-checklist-left h3 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.f-checklist-left p { font-size: 15px; color: #64748b; line-height: 1.65; }
+.f-checklist {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  list-style: none;
+}
+.f-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+}
+.f-check-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(124,58,237,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #7c3aed;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ════════════════════════════════
+   SHOWCASE SECTION
+════════════════════════════════ */
+.showcase { padding: 100px 24px; background: #f8fafc; }
+.showcase-inner { max-width: 1100px; margin: 0 auto; }
+.showcase-header { text-align: center; margin-bottom: 64px; }
+.section-label { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #7c3aed; margin-bottom: 14px; }
+.showcase-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; color: #0f172a; letter-spacing: -.025em; margin-bottom: 14px; }
+.showcase-sub { font-size: 16px; color: #64748b; max-width: 480px; margin: 0 auto; line-height: 1.7; }
+.showcase-body { display: grid; grid-template-columns: 380px 1fr; gap: 40px; align-items: start; }
+
+/* Feature list */
+.feature-list { display: flex; flex-direction: column; gap: 4px; }
+.feat-item { border-radius: 14px; border: 1.5px solid transparent; cursor: pointer; overflow: hidden; transition: border-color .25s, background .25s; background: transparent; }
+.feat-item:hover:not(.active) { background: rgba(124,58,237,.04); border-color: rgba(124,58,237,.1); }
+.feat-item.active { background: #fff; border-color: rgba(124,58,237,.18); box-shadow: 0 4px 24px rgba(124,58,237,.08); }
+.feat-header { display: flex; align-items: center; gap: 14px; padding: 16px 18px; }
+.feat-icon { width: 38px; height: 38px; border-radius: 10px; background: rgba(124,58,237,.08); display: flex; align-items: center; justify-content: center; color: #7c3aed; flex-shrink: 0; transition: background .25s; }
+.feat-item.active .feat-icon { background: #7c3aed; color: #fff; }
+.feat-icon svg { width: 18px; height: 18px; }
+.feat-title { font-size: 15px; font-weight: 600; color: #0f172a; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.feat-arrow { color: #64748b; transition: transform .3s, color .25s; flex-shrink: 0; }
+.feat-arrow svg { width: 16px; height: 16px; display: block; }
+.feat-item.active .feat-arrow { transform: rotate(90deg); color: #7c3aed; }
+.feat-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s cubic-bezier(.4,0,.2,1); }
+.feat-item.active .feat-body { grid-template-rows: 1fr; }
+.feat-body-inner { overflow: hidden; padding: 0 18px; }
+.feat-desc { font-size: 14px; color: #64748b; line-height: 1.75; padding-bottom: 16px; }
+.feat-progress { height: 2px; background: #e2e8f0; border-radius: 2px; margin: 0 18px 16px; overflow: hidden; opacity: 0; transition: opacity .2s; }
+.feat-item.active .feat-progress { opacity: 1; }
+.feat-progress-bar { height: 100%; background: #7c3aed; border-radius: 2px; width: 0%; transition: width linear; }
+
+/* Browser frame */
+.browser-wrap { position: sticky; top: 100px; }
+.browser-frame { background: #fff; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 8px 48px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.06); overflow: hidden; }
+.browser-chrome { background: #f1f5f9; padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #e2e8f0; }
+.browser-dots { display: flex; gap: 6px; flex-shrink: 0; }
+.browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
+.bd-r { background: #fc5f57; }
+.bd-y { background: #fdbd2e; }
+.bd-g { background: #27c93f; }
+.browser-url { flex: 1; background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 5px 12px; font-size: 12px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.browser-screen { position: relative; aspect-ratio: 16/10; overflow: hidden; background: #f8fafc; }
+.sc-slide { position: absolute; inset: 0; opacity: 0; transition: opacity .5s ease; display: flex; align-items: center; justify-content: center; }
+.sc-slide.visible { opacity: 1; }
+.sc-slide img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+.sc-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: #f8fafc; }
+.sc-placeholder-icon { width: 56px; height: 56px; border-radius: 14px; background: rgba(124,58,237,.1); display: flex; align-items: center; justify-content: center; color: #7c3aed; }
+.sc-placeholder-icon svg { width: 28px; height: 28px; }
+.sc-placeholder-label { font-size: 14px; font-weight: 600; color: #64748b; }
+.sc-placeholder-hint { font-size: 12px; color: #94a3b8; }
+.active-label { display: flex; align-items: center; gap: 10px; margin-top: 16px; padding: 0 4px; }
+.active-dot { width: 8px; height: 8px; border-radius: 50%; background: #7c3aed; animation: adot 1.5s ease-in-out infinite; }
+@keyframes adot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.4; transform:scale(.7); } }
+.active-name { font-size: 13px; font-weight: 600; color: #0f172a; }
+.active-count { margin-left: auto; font-size: 12px; color: #64748b; }
+
+/* ════════════════════════════════
+   FEATURE SECTIONS
+════════════════════════════════ */
+.f-section { padding: 96px 24px; background: #fff; }
+.f-section.alt { background: #f8fafc; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+.f-section.dark { background: #0f172a; }
+.f-section-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+.f-section-inner.flip { direction: rtl; }
+.f-section-inner.flip > * { direction: ltr; }
+.f-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #7c3aed; margin-bottom: 16px; }
+.f-section.dark .f-tag { color: #a78bfa; }
+.f-content h2 { font-size: clamp(26px, 3.2vw, 38px); font-weight: 700; color: #0f172a; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 16px; }
+.f-section.dark .f-content h2 { color: #f1f5f9; }
+.f-content p { font-size: 16px; color: #64748b; line-height: 1.75; margin-bottom: 28px; }
+.f-section.dark .f-content p { color: #94a3b8; }
+.f-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.f-bullets li { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: #334155; }
+.f-section.dark .f-bullets li { color: #cbd5e1; }
+.f-bullets li::before { content: '✓'; width: 20px; height: 20px; border-radius: 50%; background: rgba(124,58,237,0.12); color: #7c3aed; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.f-section.dark .f-bullets li::before { background: rgba(167,139,250,0.15); color: #a78bfa; }
+.f-mockup { border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 8px 40px rgba(15,23,42,0.08); background: #fff; font-family: Inter, sans-serif; }
+.f-section.dark .f-mockup { border-color: rgba(124,58,237,0.2); box-shadow: 0 8px 40px rgba(0,0,0,0.3); }
+.mock-bar { padding: 12px 16px; background: #f1f5f9; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 6px; }
+.mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mock-bar-title { font-size: 12px; font-weight: 600; color: #94a3b8; margin-left: 8px; }
+
+/* Invoice mockup */
+.mock-invoice-body { padding: 20px; background: #fff; }
+.mock-invoice-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; }
+.mock-inv-title { font-size: 18px; font-weight: 700; color: #0f172a; }
+.mock-inv-num { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+.mock-badge { padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+.mock-badge.green { background: #dcfce7; color: #16a34a; }
+.mock-badge.amber { background: #fef9c3; color: #a16207; }
+.mock-badge.blue  { background: #eff6ff; color: #2563eb; }
+.mock-badge.red   { background: #fee2e2; color: #dc2626; }
+.mock-inv-to { font-size: 12px; color: #64748b; margin-bottom: 4px; }
+.mock-inv-client { font-size: 14px; font-weight: 600; color: #0f172a; }
+.mock-inv-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 16px 0; }
+.mock-inv-table th { text-align: left; color: #94a3b8; font-weight: 600; font-size: 11px; padding: 6px 0; border-bottom: 1px solid #f1f5f9; }
+.mock-inv-table td { padding: 8px 0; color: #334155; border-bottom: 1px solid #f8fafc; }
+.mock-inv-table td:last-child { text-align: right; font-weight: 600; color: #0f172a; }
+.mock-inv-total { display: flex; justify-content: flex-end; flex-direction: column; align-items: flex-end; gap: 4px; margin-top: 12px; }
+.mock-inv-total-row { display: flex; gap: 32px; font-size: 12px; color: #64748b; }
+.mock-inv-total-row.big { font-size: 15px; font-weight: 700; color: #0f172a; margin-top: 6px; padding-top: 8px; border-top: 2px solid #e2e8f0; }
+.mock-inv-actions { display: flex; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f1f5f9; }
+.mock-btn { padding: 7px 14px; border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.mock-btn.primary { background: #7c3aed; color: #fff; }
+.mock-btn.ghost { background: #f1f5f9; color: #334155; }
+
+/* Expense mockup */
+.mock-expense-body { padding: 20px; background: #fff; }
+.mock-exp-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f8fafc; }
+.mock-exp-row:last-child { border-bottom: none; }
+.mock-exp-left { display: flex; align-items: center; gap: 12px; }
+.mock-exp-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.mock-exp-vendor { font-size: 13px; font-weight: 600; color: #0f172a; }
+.mock-exp-cat { font-size: 11px; color: #94a3b8; margin-top: 1px; }
+.mock-exp-right { text-align: right; }
+.mock-exp-amount { font-size: 13px; font-weight: 700; color: #0f172a; }
+.mock-exp-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; }
+.mock-sum-card { background: #f8fafc; border-radius: 8px; padding: 12px; }
+.mock-sum-val { font-size: 17px; font-weight: 700; color: #0f172a; }
+.mock-sum-lbl { font-size: 10px; color: #94a3b8; font-weight: 500; margin-top: 2px; }
+
+/* Report mockup */
+.mock-report-body { padding: 20px; background: #fff; }
+.mock-report-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+.mock-report-period { font-size: 11px; color: #94a3b8; margin-bottom: 16px; }
+.mock-report-section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #94a3b8; margin: 12px 0 6px; }
+.mock-report-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 12px; color: #334155; border-bottom: 1px solid #f8fafc; }
+.mock-report-row.total { font-weight: 700; color: #0f172a; font-size: 13px; border-top: 1.5px solid #e2e8f0; border-bottom: none; margin-top: 4px; padding-top: 8px; }
+.mock-report-row.green-val span:last-child { color: #16a34a; }
+.mock-report-row.red-val span:last-child { color: #dc2626; }
+.mock-net-income { margin-top: 16px; padding: 14px; background: rgba(124,58,237,0.06); border: 1px solid rgba(124,58,237,0.15); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
+.mock-net-label { font-size: 13px; font-weight: 700; color: #0f172a; }
+.mock-net-val { font-size: 20px; font-weight: 800; color: #7c3aed; }
+
+/* AI Agent mockup */
+.mock-ai-body { padding: 16px; background: #1e293b; min-height: 320px; display: flex; flex-direction: column; gap: 16px; }
+.mock-msg { display: flex; gap: 10px; align-items: flex-start; }
+.mock-msg.user { flex-direction: row-reverse; }
+.mock-avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+.mock-avatar.ai { background: rgba(124,58,237,0.25); color: #a78bfa; }
+.mock-avatar.user { background: #334155; color: #94a3b8; font-size: 11px; }
+.mock-bubble { padding: 10px 14px; border-radius: 12px; font-size: 12px; line-height: 1.6; max-width: 260px; }
+.mock-bubble.ai { background: #334155; color: #e2e8f0; border-radius: 4px 12px 12px 12px; }
+.mock-bubble.user { background: #7c3aed; color: #fff; border-radius: 12px 4px 12px 12px; }
+.mock-bubble strong { font-weight: 700; color: #a78bfa; }
+.mock-ai-entry { margin-top: auto; background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; }
+.mock-ai-entry span { font-size: 12px; color: #475569; }
+.mock-ai-send { width: 26px; height: 26px; border-radius: 6px; background: #7c3aed; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; }
+.mock-ai-bar { background: #1e293b; border-bottom: 1px solid #334155; }
+.mock-ai-bar .mock-dot:nth-child(1) { background: #ef4444; }
+.mock-ai-bar .mock-dot:nth-child(2) { background: #f59e0b; }
+.mock-ai-bar .mock-dot:nth-child(3) { background: #22c55e; }
+.mock-ai-bar .mock-bar-title { color: #475569; }
+
+/* COA mockup */
+.mock-coa-body { padding: 20px; background: #fff; }
+.mock-coa-filter { display: flex; gap: 6px; margin-bottom: 14px; }
+.mock-filter-pill { padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 600; background: #f1f5f9; color: #64748b; }
+.mock-filter-pill.active { background: rgba(124,58,237,0.1); color: #7c3aed; }
+.mock-coa-group { margin-bottom: 16px; }
+.mock-coa-group-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #94a3b8; padding: 4px 0; border-bottom: 1px solid #f1f5f9; margin-bottom: 6px; }
+.mock-coa-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 4px; border-radius: 6px; font-size: 12px; }
+.mock-coa-row:hover { background: #f8fafc; }
+.mock-coa-left { display: flex; align-items: center; gap: 8px; }
+.mock-coa-code { font-size: 10px; color: #94a3b8; font-weight: 600; width: 36px; }
+.mock-coa-name { color: #334155; font-weight: 500; }
+.mock-coa-type { font-size: 10px; padding: 2px 8px; border-radius: 999px; background: #f1f5f9; color: #64748b; }
+.mock-coa-balance { font-size: 12px; font-weight: 700; color: #0f172a; }
+.mock-lock { font-size: 10px; color: #94a3b8; }
+
+/* ════════════════════════════════
+   FINAL CTA
+════════════════════════════════ */
+.f-cta { padding: 100px 24px; background: #0f172a; text-align: center; position: relative; overflow: hidden; }
+.f-cta::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(124,58,237,0.15) 1px, transparent 1px); background-size: 32px 32px; pointer-events: none; }
+.f-cta-inner { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+.f-cta h2 { font-size: clamp(30px, 4vw, 46px); font-weight: 800; color: #f1f5f9; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; }
+.f-cta h2 span { color: #a78bfa; }
+.f-cta p { font-size: 16px; color: #64748b; margin-bottom: 40px; line-height: 1.6; }
+.f-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.f-cta-primary { padding: 15px 36px; background: #7c3aed; color: #fff; border-radius: 10px; font-size: 15px; font-weight: 600; box-shadow: 0 4px 20px rgba(124,58,237,0.4); transition: all 0.2s ease; }
+.f-cta-primary:hover { background: #6d28d9; transform: translateY(-2px); box-shadow: 0 6px 28px rgba(124,58,237,0.5); }
+.f-cta-ghost { padding: 15px 28px; background: rgba(255,255,255,0.06); color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; font-size: 15px; font-weight: 600; transition: all 0.2s ease; }
+.f-cta-ghost:hover { background: rgba(255,255,255,0.1); color: #f1f5f9; }
+
+/* ════════════════════════════════
+   FOOTER
+════════════════════════════════ */
+footer {
+  background: #fff;
+  border-top: 1px solid #e2e8f0;
+  padding: 64px 24px 32px;
+}
+.footer-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+.footer-brand-logo { height: 32px; width: auto; margin-bottom: 16px; }
+.footer-brand-text { font-size: 14px; color: #64748b; line-height: 1.65; max-width: 280px; }
+.footer-col h4 { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 16px; letter-spacing: -0.01em; }
+.footer-col a { display: block; font-size: 14px; color: #64748b; margin-bottom: 10px; transition: color 0.2s; }
+.footer-col a:hover { color: #7c3aed; }
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+/* ════════════════════════════════
+   RESPONSIVE
+════════════════════════════════ */
+@media (max-width: 1024px) {
+  .f-stats { grid-template-columns: repeat(2, 1fr); }
+  .f-checklist-wrap { grid-template-columns: 1fr; gap: 28px; }
+  .f-section-inner { grid-template-columns: 1fr; gap: 48px; }
+  .f-section-inner.flip { direction: ltr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+@media (max-width: 860px) {
+  .showcase-body { grid-template-columns: 1fr; }
+  .browser-wrap { position: static; }
+  .nav-links { display: none; }
+}
+@media (max-width: 640px) {
+  .f-hero { padding: 80px 20px 64px; }
+  .f-hero h1 { font-size: 32px; }
+  .f-hero-sub { font-size: 16px; }
+  .f-overview { padding: 60px 20px; }
+  .f-stats { grid-template-columns: 1fr 1fr; }
+  .f-stat { padding: 24px 20px; }
+  .f-stat-num { font-size: 32px; }
+  .f-section { padding: 64px 20px; }
+  .f-checklist { grid-template-columns: 1fr; }
+  .f-cta { padding: 72px 20px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .nav-inner { padding: 0 16px; }
+}
+  </style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="/" style="display:flex;align-items:center;">
+      <img src="https://ehruffcyvpexcuvvngck.supabase.co/storage/v1/object/public/company-logos/logo-1777215402569.png" alt="Fyntrax" class="nav-logo">
+    </a>
+    <div class="nav-links">
+      <a href="/pages/features" class="active">Features</a>
+      <a href="/pages/pricing">Pricing</a>
+      <a href="/pages/demo">Demo</a>
+      <a href="/pages/about">About</a>
+      <a href="/pages/blog">Blog</a>
+    </div>
+    <div class="nav-actions">
+      <a href="/pages/auth/login.html" class="btn-ghost">Sign in</a>
+      <a href="https://join.fyntrax.site" class="btn-primary">Start free trial</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="f-hero">
+  <div class="f-hero-falling">
+    <div class="f-hero-falling-pattern"></div>
+    <div class="f-hero-falling-overlay"></div>
+  </div>
+  <div class="f-hero-inner">
+    <div class="f-hero-badge">
+      <span class="f-hero-badge-dot"></span>
+      Everything included · No feature gates
+    </div>
+    <h1>Built for how<br><span>real businesses</span> work</h1>
+    <p class="f-hero-sub">Every feature is connected. Invoice a customer → journal entry is created → report updates automatically. That's real accounting.</p>
+    <a href="https://join.fyntrax.site" class="f-hero-cta">Start free trial →</a>
+  </div>
+</section>
+
+<!-- ═══ STATS + CHECKLIST ═══ -->
+<section class="f-overview">
+  <div class="f-overview-inner">
+    <div class="f-stats">
+      <div class="f-stat">
+        <span class="f-stat-num">5</span>
+        <span class="f-stat-label">Financial report types ready to generate</span>
+      </div>
+      <div class="f-stat">
+        <span class="f-stat-num">100%</span>
+        <span class="f-stat-label">Double-entry accounting under the hood</span>
+      </div>
+      <div class="f-stat">
+        <span class="f-stat-num">AI</span>
+        <span class="f-stat-label">Plain-English transaction entry</span>
+      </div>
+      <div class="f-stat">
+        <span class="f-stat-num">$0</span>
+        <span class="f-stat-label">Extra for features — everything's in every plan</span>
+      </div>
+    </div>
+    <div class="f-checklist-wrap">
+      <div class="f-checklist-left">
+        <h3>A full accounting stack.<br>Not a stripped-down tool.</h3>
+        <p>Fyntrax ships with everything a small business needs to run clean books — invoicing, expenses, reports, AI, and double-entry accounting — all connected, all included.</p>
+      </div>
+      <ul class="f-checklist">
+        <li><span class="f-check-icon">✓</span> Professional Invoicing</li>
+        <li><span class="f-check-icon">✓</span> Vendor Bill Management</li>
+        <li><span class="f-check-icon">✓</span> A/R & A/P Tracking</li>
+        <li><span class="f-check-icon">✓</span> P&L, Balance Sheet, Aging</li>
+        <li><span class="f-check-icon">✓</span> AI Accounting Agent</li>
+        <li><span class="f-check-icon">✓</span> Chart of Accounts</li>
+        <li><span class="f-check-icon">✓</span> Multi-user & Role Access</li>
+        <li><span class="f-check-icon">✓</span> Audit Trail on every entry</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SHOWCASE ═══ -->
+<section class="showcase">
+  <div class="showcase-inner">
+    <div class="showcase-header">
+      <div class="section-label">See it in action</div>
+      <h2 class="showcase-title">Everything you need, nothing you don't.</h2>
+      <p class="showcase-sub">Click any feature to see exactly how it looks inside Fyntrax.</p>
+    </div>
+    <div class="showcase-body">
+
+      <!-- LEFT -->
+      <div class="feature-list" id="featureList">
+
+        <!-- 1: Dashboard -->
+        <div class="feat-item active" data-index="0">
+          <div class="feat-header">
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+              </svg>
+            </div>
+            <span class="feat-title">Dashboard</span>
+            <span class="feat-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+          </div>
+          <div class="feat-body"><div class="feat-body-inner">
+            <p class="feat-desc">See your full financial picture the moment you log in. Revenue, expenses, net profit, and key alerts — all without navigating anywhere. Your books at a glance, always up to date.</p>
+          </div></div>
+          <div class="feat-progress"><div class="feat-progress-bar"></div></div>
+        </div>
+
+        <!-- 2: Agent -->
+        <div class="feat-item" data-index="1">
+          <div class="feat-header">
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <span class="feat-title">Agent</span>
+            <span class="feat-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+          </div>
+          <div class="feat-body"><div class="feat-body-inner">
+            <p class="feat-desc">Ask Fyntrax anything about your books. It reads your live data and answers in plain English — no jargon. "What's my gross profit this month?" gets you a real answer, not a help article.</p>
+          </div></div>
+          <div class="feat-progress"><div class="feat-progress-bar"></div></div>
+        </div>
+
+        <!-- 3: Invoicing -->
+        <div class="feat-item" data-index="2">
+          <div class="feat-header">
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+            </div>
+            <span class="feat-title">Invoicing</span>
+            <span class="feat-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+          </div>
+          <div class="feat-body"><div class="feat-body-inner">
+            <p class="feat-desc">Create and send professional invoices in seconds. Track what's paid, what's pending, and what's overdue — all posting directly to your ledger without a manual journal entry.</p>
+          </div></div>
+          <div class="feat-progress"><div class="feat-progress-bar"></div></div>
+        </div>
+
+        <!-- 4: Banking -->
+        <div class="feat-item" data-index="3">
+          <div class="feat-header">
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                <line x1="2" y1="10" x2="22" y2="10"/>
+              </svg>
+            </div>
+            <span class="feat-title">Banking</span>
+            <span class="feat-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+          </div>
+          <div class="feat-body"><div class="feat-body-inner">
+            <p class="feat-desc">Connect your bank and reconcile transactions automatically. Fyntrax matches payments to invoices and journal entries, so your books stay in sync without the manual grind.</p>
+          </div></div>
+          <div class="feat-progress"><div class="feat-progress-bar"></div></div>
+        </div>
+
+        <!-- 5: Reports -->
+        <div class="feat-item" data-index="4">
+          <div class="feat-header">
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"/>
+                <line x1="12" y1="20" x2="12" y2="4"/>
+                <line x1="6"  y1="20" x2="6"  y2="14"/>
+              </svg>
+            </div>
+            <span class="feat-title">Reports</span>
+            <span class="feat-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+          </div>
+          <div class="feat-body"><div class="feat-body-inner">
+            <p class="feat-desc">P&L, Balance Sheet, and Cash Flow — generated instantly from your live data. Always accurate, always export-ready. Hand them to your accountant or your bank without touching a spreadsheet.</p>
+          </div></div>
+          <div class="feat-progress"><div class="feat-progress-bar"></div></div>
+        </div>
+
+      </div><!-- /feature-list -->
+
+      <!-- RIGHT -->
+      <div class="browser-wrap">
+        <div class="browser-frame">
+          <div class="browser-chrome">
+            <div class="browser-dots">
+              <span class="bd-r"></span><span class="bd-y"></span><span class="bd-g"></span>
+            </div>
+            <div class="browser-url" id="browserUrl">app.fyntrax.site/dashboard</div>
+          </div>
+          <div class="browser-screen" id="browserScreen">
+            <div class="sc-slide visible" data-slide="0">
+              <img src="../../images/feature-dashboard.png" alt="Dashboard">
+            </div>
+            <div class="sc-slide" data-slide="1">
+              <img src="../../images/feature-agent.png" alt="Agent">
+            </div>
+            <div class="sc-slide" data-slide="2">
+              <img src="../../images/feature-invoicing.png" alt="Invoicing">
+            </div>
+            <div class="sc-slide" data-slide="3">
+              <img src="../../images/feature-banking.png" alt="Banking">
+            </div>
+            <div class="sc-slide" data-slide="4">
+              <img src="../../images/feature-reports.png" alt="Reports">
+            </div>
+          </div>
+        </div>
+        <div class="active-label">
+          <span class="active-dot"></span>
+          <span class="active-name" id="activeName">Dashboard</span>
+          <span class="active-count" id="activeCount">1 / 5</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="f-cta">
+  <div class="f-cta-inner">
+    <h2>Real accounting.<br><span>Real results.</span></h2>
+    <p>Join businesses already running clean books with Fyntrax. Free to start, no credit card required.</p>
+    <div class="f-cta-btns">
+      <a href="https://join.fyntrax.site" class="f-cta-primary">Try Fyntrax free →</a>
+      <a href="/pages/demo" class="f-cta-ghost">Watch demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <img src="https://ehruffcyvpexcuvvngck.supabase.co/storage/v1/object/public/company-logos/logo-1777215402569.png" alt="Fyntrax" class="footer-brand-logo">
+      <p class="footer-brand-text">Accounting software that thinks with you. Built for small businesses that deserve better tools.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="/pages/features">Features</a>
+      <a href="/pages/pricing">Pricing</a>
+      <a href="/pages/demo">Demo</a>
+      <a href="#">Changelog</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="/pages/about">About</a>
+      <a href="/pages/blog">Blog</a>
+      <a href="#">Careers</a>
+      <a href="/pages/contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Security</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Fyntrax. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const DURATION = 4000;
+  const items = document.querySelectorAll('.feat-item');
+  const slides = document.querySelectorAll('.sc-slide');
+  const urlEl = document.getElementById('browserUrl');
+  const nameEl = document.getElementById('activeName');
+  const countEl = document.getElementById('activeCount');
+
+  const urls  = ['app.fyntrax.site/dashboard','app.fyntrax.site/agent','app.fyntrax.site/invoicing','app.fyntrax.site/banking','app.fyntrax.site/reports'];
+  const names = ['Dashboard','Agent','Invoicing','Banking','Reports'];
+
+  let current = 0, timer = null, paused = false;
+
+  function activate(idx) {
+    items.forEach(it => { it.classList.remove('active'); const b = it.querySelector('.feat-progress-bar'); b.style.transition='none'; b.style.width='0%'; });
+    slides.forEach(s => s.classList.remove('visible'));
+    current = idx;
+    items[idx].classList.add('active');
+    slides[idx].classList.add('visible');
+    urlEl.textContent = urls[idx];
+    nameEl.textContent = names[idx];
+    countEl.textContent = (idx+1)+' / '+items.length;
+    if (!paused) startProgress(idx);
+  }
+
+  function startProgress(idx) {
+    const bar = items[idx].querySelector('.feat-progress-bar');
+    requestAnimationFrame(() => { bar.style.transition=`width ${DURATION}ms linear`; bar.style.width='100%'; });
+  }
+
+  function next() { activate((current+1) % items.length); }
+
+  function scheduleNext() { clearTimeout(timer); if (!paused) timer = setTimeout(next, DURATION); }
+
+  items.forEach((item, idx) => {
+    item.addEventListener('click', () => { if (idx===current) return; clearTimeout(timer); activate(idx); scheduleNext(); });
+  });
+
+  const wrap = document.querySelector('.showcase-body');
+  wrap.addEventListener('mouseenter', () => {
+    paused = true; clearTimeout(timer);
+    const bar = items[current].querySelector('.feat-progress-bar');
+    const w = window.getComputedStyle(bar).width;
+    bar.style.transition='none'; bar.style.width=w;
+  });
+  wrap.addEventListener('mouseleave', () => {
+    paused = false;
+    const bar = items[current].querySelector('.feat-progress-bar');
+    const cw = parseFloat(bar.style.width);
+    const rem = DURATION * (1 - cw / bar.parentElement.offsetWidth);
+    requestAnimationFrame(() => { bar.style.transition=`width ${rem}ms linear`; bar.style.width='100%'; });
+    timer = setTimeout(next, rem);
+  });
+
+  activate(0); scheduleNext();
+})();
+
+/* Navbar scroll state */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar')
+    .classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.8);
+});
+</script>
+</body>
+</html>
