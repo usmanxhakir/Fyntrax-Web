@@ -606,10 +606,9 @@ Return ONLY a valid JSON array. No markdown, no explanation, no code fences.`;
     updateRateBadge();
 
     try {
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const res = await fetch('/api/parse', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${GROQ_API_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
