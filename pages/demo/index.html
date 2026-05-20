@@ -399,7 +399,7 @@
       <div class="loading-bar" id="loading-bar"></div>
 
       <textarea id="agent-input" class="agent-textarea"
-        placeholder="Bill from AWS $340 for cloud hosting due in 30 days, and paid $45 for lunch from checking today…"
+        placeholder="Bill from AWS $340 for cloud hosting due in 30 days… or ask: What are my margins? Who owes me money?"
       ></textarea>
 
       <div class="agent-toolbar">
@@ -408,15 +408,32 @@
           <button class="chip" data-v="Invoice Acme Corp $1,500 for web design, due next month">Invoice customer</button>
           <button class="chip" data-v="Paid $45 lunch from checking today">Lunch expense</button>
           <button class="chip" data-v="Figma $15 and Notion $8 subscriptions charged today">SaaS subs</button>
+          <button class="chip" data-v="How much do I owe in total?">How much do I owe?</button>
+          <button class="chip" data-v="What are my margins this month?">My margins</button>
+          <button class="chip" data-v="Who owes me money?">Who owes me?</button>
+          <button class="chip" data-v="What's my biggest expense category?">Top expenses</button>
         </div>
         <button class="btn-parse" id="parse-btn" onclick="parseTransactions()">
-          <span id="btn-label">Parse entries</span>
+          <span id="btn-label">Ask Fyntrax</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
       </div>
     </div>
 
     <div class="error-box" id="error-box"></div>
+
+    <!-- Q&A Answer -->
+    <div class="results-wrap" id="qa-wrap" style="display:none;">
+      <div class="results-meta">
+        <span class="results-label">Fyntrax AI</span>
+      </div>
+      <div class="results-card" style="padding: 24px 28px;">
+        <div id="qa-answer" style="font-size:15px;color:var(--g700);line-height:1.8;white-space:pre-wrap;"></div>
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--g100);font-size:12px;color:var(--g400);">
+          This is demo data. <a href="/pages/auth/register.html" style="color:var(--primary);font-weight:500;text-decoration:none;">Sign up free</a> to ask questions about your real books.
+        </div>
+      </div>
+    </div>
 
     <!-- Results -->
     <div class="results-wrap" id="results-wrap">
@@ -513,23 +530,32 @@
 
   function buildSystemPrompt() {
     const today = new Date().toISOString().split('T')[0];
-    return `You are an expert bookkeeper. Parse the user's plain-English description into a JSON array of transactions.
+    return `You are Fyntrax AI — an expert bookkeeper and accounting assistant.
 
 Today's date: ${today}
 
-Each transaction object must have:
+You have two modes. Determine which applies based on the user's input:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MODE 1 — TRANSACTION PARSING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Triggered when the user describes one or more financial events (bills, invoices, payments, expenses).
+
+Return ONLY a valid JSON array. No markdown, no explanation, no code fences.
+
+Each object must have:
 - type: "BILL" | "INVOICE" | "EXPENSE"
   BILL    = vendor will be paid later (you owe them)
   INVOICE = customer will pay you later (they owe you)
   EXPENSE = payment already made / direct spend
 - description: short clean label, max 7 words
-- contact_name: vendor or customer name (infer from context if not stated)
+- contact_name: vendor or customer name
 - account_name: standard chart-of-accounts name (see rules below)
 - amount: dollars as a float
 - date: YYYY-MM-DD (today if not specified)
 - due_date: YYYY-MM-DD for BILL/INVOICE (default: date + 30 days). null for EXPENSE.
 
-Account name inference — use these exact strings:
+Account name inference:
 AWS / GCP / Google Cloud / Azure / DigitalOcean    → "Cloud Infrastructure"
 Figma / Notion / Linear / GitHub / Slack / Zoom    → "Software Subscriptions"
 Facebook Ads / Google Ads / Meta / TikTok Ads      → "Advertising & Marketing"
@@ -538,16 +564,62 @@ Office rent / WeWork / coworking                   → "Rent"
 Electricity / water / internet / phone bill        → "Utilities"
 Accountant / lawyer / consultant / agency fees     → "Professional Services"
 Laptop / monitor / hardware / equipment            → "Equipment"
-Stationery / office supplies                       → "Office Supplies"
 Salary / wages / payroll                           → "Salaries & Wages"
 Anything else: use the most logical standard accounting category.
 
-Transaction type rules:
-"bill from X" / "invoice from X" / "X charged us" / "owe X"  → BILL
-"invoice X" / "bill customer X" / "X owes us"                 → INVOICE
-"paid" / "spent" / "expense" / "from checking" / "on card"    → EXPENSE
+Type rules:
+"bill from X" / "X charged us" / "owe X"          → BILL
+"invoice X" / "bill customer X" / "X owes us"     → INVOICE
+"paid" / "spent" / "expense" / "from checking"    → EXPENSE
 
-Return ONLY a valid JSON array. No markdown, no explanation, no code fences.`;
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MODE 2 — ACCOUNTING Q&A
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Triggered when the user asks a question about their finances (margins, balances, who owes them, expenses, etc.).
+
+Use this DEMO dataset to answer (always clarify it's demo data):
+
+DEMO COMPANY — "Acme Studio" — Month: ${today.slice(0, 7)}
+
+Revenue: $22,400
+  - Web Design Services: $14,200
+  - Monthly Retainers: $8,200
+
+Cost of Goods Sold (COGS): $6,100
+  - Freelancer Fees: $4,800
+  - Software Tools (direct): $1,300
+
+Gross Profit: $16,300  |  Gross Margin: 72.8%
+
+Operating Expenses: $9,650
+  - Salaries & Wages: $5,500
+  - Cloud Infrastructure: $820
+  - Software Subscriptions: $430
+  - Advertising & Marketing: $1,200
+  - Meals & Entertainment: $310
+  - Rent: $1,100
+  - Professional Services: $290
+
+Net Profit: $6,650  |  Net Margin: 29.7%
+
+Accounts Receivable (customers who owe you):
+  - Northgate LLC: $3,200 (due in 8 days) — OVERDUE RISK
+  - Vela Creative: $1,500 (due in 22 days)
+  - Orion Labs: $800 (due in 45 days)
+  Total A/R: $5,500
+
+Accounts Payable (you owe these vendors):
+  - AWS: $340 (due in 12 days)
+  - Stripe: $95 (due in 18 days)
+  - Freelancer — Maya R.: $1,200 (due in 5 days)
+  Total A/P: $1,635
+
+Cash Balance: $18,240
+
+Answer clearly and conversationally. Use numbers from the dataset. Be specific and helpful.
+Format nicely — use line breaks and bullet points where it helps readability.
+Start with a direct answer, then add useful context.
+Do NOT return JSON in this mode. Return plain text only.`;
   }
 
   function fmtDate(iso) {
@@ -602,14 +674,16 @@ Return ONLY a valid JSON array. No markdown, no explanation, no code fences.`;
     loadingBar.style.display = 'block';
     errorBox.classList.remove('visible');
     document.getElementById('results-wrap').classList.remove('visible');
+    document.getElementById('qa-wrap').style.display = 'none';
 
     triesLeft--;
     updateRateBadge();
 
     try {
-      const res = await fetch('/api/parse', {
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -627,11 +701,18 @@ Return ONLY a valid JSON array. No markdown, no explanation, no code fences.`;
       const data = await res.json();
       const raw  = data.choices?.[0]?.message?.content?.trim() || '';
       const clean = raw.replace(/```json|```/g, '').trim();
-      const entries = JSON.parse(clean);
-      if (!Array.isArray(entries)) throw new Error('Bad format');
 
-      renderResults(entries);
-      document.getElementById('results-wrap').classList.add('visible');
+      // Detect mode: if it starts with [ it's JSON (transactions), otherwise it's Q&A
+      if (clean.startsWith('[')) {
+        const entries = JSON.parse(clean);
+        if (!Array.isArray(entries)) throw new Error('Bad format');
+        renderResults(entries);
+        document.getElementById('results-wrap').classList.add('visible');
+      } else {
+        // Q&A answer
+        document.getElementById('qa-answer').textContent = clean;
+        document.getElementById('qa-wrap').style.display = 'block';
+      }
 
     } catch (err) {
       console.error(err);
@@ -641,7 +722,7 @@ Return ONLY a valid JSON array. No markdown, no explanation, no code fences.`;
     } finally {
       btn.disabled = triesLeft <= 0;
       document.getElementById('agent-input').disabled = false;
-      btnLabel.textContent = 'Parse entries';
+      btnLabel.textContent = 'Ask Fyntrax';
       loadingBar.style.display = 'none';
     }
   }
