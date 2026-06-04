@@ -5,29 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fyntrax — Accounting software that actually thinks</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-
-  </head>
+<link rel="stylesheet" href="/css/style.css">
+</head>
   <body>
 
   <!-- ═══ NAVBAR ═══ -->
-  <nav class="nav-wrap">
-    <div class="nav-inner">
-      <img src="https://ehruffcyvpexcuvvngck.supabase.co/storage/v1/object/public/company-logos/logo-1777215402569.png"
-          alt="Fyntrax" class="nav-logo">
-      <div class="nav-links">
-        <a href="/pages/features">Features</a>
-        <a href="/pages/pricing">Pricing</a>
-        <a href="/pages/demo">Demo</a>
-        <a href="/pages/about">About</a>
-        <a href="/pages/blog">Blog</a>
-      </div>
-      <div class="nav-actions">
-        <a href="/login" class="btn-ghost">Sign in</a>
-        <a href="/register" class="btn-primary">Start free trial</a>
-      </div>
-    </div>
-  </nav>
+  <nav class="fyn-navbar">
+  <a href="/" class="fyn-nav-logo" aria-label="Fyntrax home"><img src="/images/logo.png" alt="Fyntrax"></a>
+  <div class="fyn-nav-links">
+    <a href="/" class="active">Home</a>
+    <a href="/features">Features</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/demo">Demo</a>
+    <a href="/about">About</a>
+    <a href="/blog">Blog</a>
+  </div>
+  <div class="fyn-nav-actions">
+    <a href="/login" class="fyn-nav-auth">Sign in</a>
+    <a href="https://join.fyntrax.site" class="fyn-nav-cta">Get Started</a>
+  </div>
+</nav>
 
   <!-- ═══ HERO ═══ -->
   <section class="hero" id="hero-section">
@@ -404,38 +401,50 @@
   </section>
 
   <!-- ═══ FOOTER ═══ -->
-  <footer>
-    <div class="footer-grid">
-      <div>
-        <img src="https://ehruffcyvpexcuvvngck.supabase.co/storage/v1/object/public/company-logos/logo-1777215402569.png"
-            alt="Fyntrax" class="footer-brand-logo">
-        <p class="footer-brand-text">Accounting software that thinks with you. Built for small businesses that deserve better tools.</p>
+  <footer class="fyn-footer">
+  <div class="fyn-footer-shell">
+    <div class="fyn-footer-card">
+      <div class="fyn-footer-brand">
+        <a href="/" aria-label="Fyntrax home"><img src="/images/logo.png" alt="Fyntrax"></a>
+        <p>Accounting software that thinks with you. Built for small businesses that deserve clean books without bloated tools.</p>
       </div>
-      <div class="footer-col">
-        <h4>Product</h4>
-        <a href="#features">Features</a>
-        <a href="/pricing">Pricing</a>
-        <a href="/demo">Demo</a>
-        <a href="#">Changelog</a>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <a href="/about">About</a>
-        <a href="/blog">Blog</a>
-        <a href="#">Careers</a>
-        <a href="/contact">Contact</a>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Security</a>
+      <div class="fyn-footer-links">
+        <div class="fyn-footer-col">
+          <h4>Product</h4>
+          <a href="/features">Features</a>
+          <a href="/pricing">Pricing</a>
+          <a href="/demo">Demo</a>
+          <a href="/features/ai-agent">AI Agent</a>
+        </div>
+        <div class="fyn-footer-col">
+          <h4>Company</h4>
+          <a href="/about">About</a>
+          <a href="/about/story">Story</a>
+          <a href="/blog">Blog</a>
+          <a href="/contact">Contact</a>
+        </div>
+        <div class="fyn-footer-col">
+          <h4>Resources</h4>
+          <a href="/features/invoicing">Invoicing</a>
+          <a href="/features/reports">Reports</a>
+          <a href="/blog/articles">Articles</a>
+          <a href="/blog/guides">Guides</a>
+        </div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>© 2025 Fyntrax. All rights reserved.</p>
+    <div class="fyn-footer-bottom">
+      <div class="fyn-footer-legal">
+        <span>&copy; 2026 Fyntrax. All rights reserved.</span>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms</a>
+      </div>
+      <div class="fyn-footer-social">
+        <a href="#" aria-label="Fyntrax on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.23 0z"/></svg></a>
+        <a href="#" aria-label="Fyntrax on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64z"/></svg></a>
+      </div>
     </div>
-  </footer>
+  </div>
+</footer>
 
   <!-- ═══ ANIMATED GRID SCRIPT ═══ -->
   <script src="/js/script.js"></script>

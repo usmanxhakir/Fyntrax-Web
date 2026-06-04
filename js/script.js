@@ -1,7 +1,9 @@
 (function() {
   const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const section = document.getElementById('hero-section');
+  if (!section) return;
   const CELL = 40;
   const COLOR = '#7C3AED';
   let offsetX = 0, offsetY = 0;
@@ -66,4 +68,16 @@
   }
 
   animate();
+})();
+
+(function() {
+  const nav = document.querySelector('.fyn-navbar');
+  if (!nav) return;
+
+  function updateNav() {
+    nav.classList.toggle('scrolled', window.scrollY > 64);
+  }
+
+  updateNav();
+  window.addEventListener('scroll', updateNav, { passive: true });
 })();
