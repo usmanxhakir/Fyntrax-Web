@@ -72,94 +72,58 @@
     100% { transform: translate(30px, -30px) scale(1.1); }
   }
 
-  /* NAVBAR copied from homepage */
-  .nav-wrap {
+  /* About-style navbar for consistency */
+  .navbar {
     position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 20px 40px;
-    display: flex;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(229, 231, 235, 0.5);
-  }
-  .nav-inner {
-    max-width: 1200px;
-    width: 100%;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    background: rgba(248, 250, 252, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 100px;
+    padding: 10px 10px 10px 24px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 4px;
   }
   .nav-logo {
-    height: 36px;
-    width: auto;
-    filter: drop-shadow(0 2px 4px rgba(124,58,237,0.15));
-    transition: transform 0.3s ease;
-  }
-  .nav-logo:hover { transform: scale(1.05); }
-  .nav-links {
+    margin-right: 20px;
     display: flex;
     align-items: center;
-    gap: 32px;
   }
-  .nav-links a {
-    font-size: 15px;
+  .nav-logo img {
+    height: 26px;
+    display: block;
+  }
+  .navbar a {
+    color: rgba(15, 23, 42, 0.72);
+    text-decoration: none;
+    font-size: 14px;
     font-weight: 500;
-    color: var(--gray-600);
-    text-decoration: none;
-    transition: color 0.2s ease;
-    position: relative;
+    padding: 7px 15px;
+    border-radius: 100px;
+    transition: color .3s, background .3s;
+    white-space: nowrap;
   }
-  .nav-links a:hover { color: var(--primary); }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
+  .navbar a:hover {
+    color: #0f172a;
+    background: rgba(124, 58, 237, 0.10);
+  }
+  .navbar a.active {
+    color: #0f172a;
+    background: #f1f5f9;
+  }
+  .navbar .nav-cta {
     background: var(--primary);
-    border-radius: 2px;
-    transition: width 0.2s ease;
+    color: #fff !important;
+    font-weight: 600 !important;
+    margin-left: 8px;
   }
-  .nav-links a:hover::after { width: 100%; }
-  .nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .btn-ghost {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--gray-700);
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--gray-200);
-    background: transparent;
-    transition: all 0.2s ease;
-  }
-  .btn-ghost:hover {
-    background: var(--gray-100);
-    border-color: var(--gray-300);
-  }
-  .btn-primary {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--white);
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: var(--radius-full);
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    border: none;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 14px rgba(124,58,237,0.25);
-  }
-  .btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(124,58,237,0.35);
+  .navbar .nav-cta:hover {
+    background: var(--primary-dark) !important;
   }
 
   .main {
@@ -353,15 +317,74 @@
   }
   .social-logos span:hover { color: var(--gray-500); }
 
+  .site-footer {
+    position: relative;
+    z-index: 10;
+    background: #0f172a;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 38px 24px;
+  }
+  .site-footer-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .site-footer-logo img {
+    height: 22px;
+    opacity: 0.65;
+    display: block;
+  }
+  .site-footer-copy {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.35);
+  }
+  .site-footer-links,
+  .site-footer-social {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .site-footer-links a,
+  .site-footer-social a,
+  .site-footer-social span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.64);
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 100px;
+    padding: 6px 12px;
+    transition: all .2s;
+  }
+  .site-footer-links a:hover,
+  .site-footer-social a:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.38);
+  }
+  .site-footer-social .placeholder {
+    color: rgba(255, 255, 255, 0.40);
+    border-style: dashed;
+  }
+
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
   @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .nav-wrap { padding: 16px 20px; }
-    .nav-logo { height: 30px; }
+    .navbar {
+      width: calc(100% - 24px);
+      left: 12px;
+      transform: none;
+      overflow-x: auto;
+      padding: 8px 8px 8px 14px;
+      justify-content: flex-start;
+    }
+    .nav-logo img { height: 24px; }
     .main { padding: 100px 20px 60px; }
     .countdown-wrap { gap: 8px; }
     .time-box { padding: 14px 18px; min-width: 68px; }
@@ -370,9 +393,16 @@
     .time-sep { font-size: 20px; }
     .footer-links { gap: 20px; flex-wrap: wrap; justify-content: center; }
     .social-logos { gap: 24px; }
+    .site-footer-inner {
+      justify-content: center;
+      text-align: center;
+    }
+    .site-footer-links,
+    .site-footer-social {
+      justify-content: center;
+    }
   }
 </style>
-<base target="_blank">
 </head>
 <body>
 
@@ -381,22 +411,18 @@
 <div class="blob blob-bl"></div>
 
 <!-- ═══ NAVBAR ═══ -->
-<nav class="nav-wrap">
-  <div class="nav-inner">
-    <img src="https://ehruffcyvpexcuvvngck.supabase.co/storage/v1/object/public/company-logos/logo-1777215402569.png"
-         alt="Fyntrax" class="nav-logo">
-    <div class="nav-links">
-      <a href="/pages/features">Features</a>
-      <a href="/pages/pricing">Pricing</a>
-      <a href="/pages/demo">Demo</a>
-      <a href="/pages/about">About</a>
-      <a href="/pages/blog">Blog</a>
-    </div>
-    <div class="nav-actions">
-      <a href="/login" class="btn-ghost">Sign in</a>
-      <a href="/register" class="btn-primary">Start free trial</a>
-    </div>
-  </div>
+<nav class="navbar">
+  <a href="/" class="nav-logo">
+    <img src="../images/logo.png" alt="Fyntrax">
+  </a>
+  <a href="/">Home</a>
+  <a href="/features">Features</a>
+  <a href="/about">About</a>
+  <a href="/pricing">Pricing</a>
+  <a href="/demo">Demo</a>
+  <a href="/blog">Blog</a>
+  <a href="/contact" class="active">Contact</a>
+  <a href="/register" class="nav-cta">Get Started</a>
 </nav>
 
 <!-- ═══ HERO ═══ -->
@@ -449,47 +475,25 @@
     </a>
   </div>
 
-  <div class="footer-links">
-    <a href="/">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2 2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
-      Homepage
-    </a>
-    <a href="/pricing">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="12" y1="1" x2="12" y2="23"/>
-        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 0 0 7H6"/>
-      </svg>
-      Pricing
-    </a>
-    <a href="/demo">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="5 3 19 12 5 21 5 3"/>
-      </svg>
-      Watch Demo
-    </a>
-    <a href="mailto:hello@fyntrax.site">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-      </svg>
-      Contact
-    </a>
-  </div>
+</main>
 
-  <div class="social-strip">
-    <p>Trusted by forward-thinking teams</p>
-    <div class="social-logos">
-      <span>Acme Studio</span>
-      <span>Northgate LLC</span>
-      <span>Bright & Co</span>
-      <span>Vela Creative</span>
-      <span>Orion Labs</span>
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <a href="/" class="site-footer-logo">
+      <img src="../images/logo.png" alt="Fyntrax">
+    </a>
+    <span class="site-footer-copy">&copy; 2026 Fyntrax. All rights reserved.</span>
+    <div class="site-footer-links">
+      <a href="mailto:support@fyntrax.site">support@fyntrax.site</a>
+      <a href="https://www.linkedin.com/company/122314041/admin/dashboard/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://www.instagram.com/fyntrax.site/" target="_blank" rel="noopener noreferrer">Instagram</a>
+    </div>
+    <div class="site-footer-social">
+      <span class="placeholder">X (Coming soon)</span>
+      <span class="placeholder">GitHub (Coming soon)</span>
     </div>
   </div>
-
-</main>
+</footer>
 
 <script>
   const targetDate = new Date('2026-06-01T00:00:00').getTime();

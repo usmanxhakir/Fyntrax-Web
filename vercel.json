@@ -7,7 +7,7 @@
     { "source": "/pricing", "destination": "/pages/pricing/index.html" },
     { "source": "/blog", "destination": "/pages/blog/index.html" },
     { "source": "/demo", "destination": "/pages/demo/index.html" },
-    { "source": "/contact", "destination": "/pages/contact/index.html" },
+    { "source": "/contact", "destination": "/pages/contact.html" },
     { "source": "/register", "destination": "/pages/auth/register.html" },
     { "source": "/login", "destination": "/pages/auth/login.html" },
     { "source": "/get-started", "destination": "/pages/auth/get-started.html" }
