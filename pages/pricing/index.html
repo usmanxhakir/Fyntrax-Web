@@ -396,15 +396,16 @@
         <a href="https://free.fyntrax.site/register" class="card-cta cta-outline">Get started free</a>
         <hr class="divider" />
         <div class="features-label">What's included</div>
-        <ul class="features">
-          <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>1 business profile</li>
-          <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>Basic financial dashboard</li>
-          <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>Up to 5 invoices/month</li>
-          <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>Manual transaction entry</li>
-          <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>Email support</li>
-          <li class="dim"><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>AI bookkeeping agent</li>
-          <li class="dim"><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>Banking sync</li>
-        </ul>
+          <ul class="features">
+            <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>1 user, 1 business profile</li>
+            <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>Basic AI bookkeeping agent</li>
+            <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>Basic financial dashboard</li>
+            <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>P&amp;L, AP/AR aging reports only</li>
+            <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>Manual transaction entry</li>
+            <li class="dim"><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>No invoicing</li>
+            <li class="dim"><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>No journal entries</li>
+            <li class="dim"><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5"><polyline points="1,6 4,9 11,3"/></svg></span>No banking sync</li>
+          </ul>
       </div>
 
       <!-- PRO (FEATURED) -->
@@ -418,7 +419,7 @@
           <span class="price-period">/mo</span>
         </div>
         <div class="price-annual-note" id="note-pro">&nbsp;</div>
-        <a href="/register?plan=pro" class="card-cta cta-filled">Start 14-day free trial</a>
+        <a href="#" id="cta-pro" class="card-cta cta-filled">Get Pro</a>
         <hr class="divider" />
         <div class="features-label">Everything in Starter, plus</div>
         <ul class="features">
@@ -441,7 +442,7 @@
           <span class="price-period">/mo</span>
         </div>
         <div class="price-annual-note" id="note-studio">&nbsp;</div>
-        <a href="/contact?plan=studio" class="card-cta cta-ghost">Talk to us</a>
+        <a href="#" id="cta-studio" class="card-cta cta-ghost">Get Studio</a>
         <hr class="divider" />
         <div class="features-label">Everything in Pro, plus</div>
         <ul class="features">
@@ -471,10 +472,10 @@
 
     <div class="faq-item reveal">
       <button class="faq-q" onclick="toggleFaq(this)">
-        Is there a free trial for Pro?
+        What is Fyntrax Free?
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </button>
-      <div class="faq-a">Yes, Pro comes with a 14-day free trial. No credit card required to start. If you don't upgrade at the end, you'll automatically move to the Starter plan.</div>
+      <div class="faq-a">Fyntrax Free is a separate app at free.fyntrax.site for solo operators. It includes a basic AI bookkeeping agent, P&L and AP/AR reports, and manual transaction entry — no invoicing, no journal entries, no banking sync.</div>
     </div>
 
     <div class="faq-item reveal">
@@ -533,6 +534,17 @@
       studio:  { monthly: 15, annual: 10 }
     };
 
+    const LS_URLS = {
+      pro: {
+        monthly: 'https://fyntrax.lemonsqueezy.com/checkout/buy/1679534?checkout[redirect_url]=https://app.fyntrax.site/register',
+        annual:  'https://fyntrax.lemonsqueezy.com/checkout/buy/1679543?checkout[redirect_url]=https://app.fyntrax.site/register'
+      },
+      studio: {
+        monthly: 'https://fyntrax.lemonsqueezy.com/checkout/buy/1679596?checkout[redirect_url]=https://app.fyntrax.site/register',
+        annual:  'https://fyntrax.lemonsqueezy.com/checkout/buy/1679679?checkout[redirect_url]=https://app.fyntrax.site/register'
+      }
+    };
+
     function toggleBilling() {
       isAnnual = !isAnnual;
       const toggle = document.getElementById('billing-toggle');
@@ -542,6 +554,7 @@
       lblM.classList.toggle('active', !isAnnual);
       lblA.classList.toggle('active', isAnnual);
       updatePrices();
+      updateCtaUrls();
     }
 
     function updatePrices() {
@@ -564,6 +577,12 @@
           note.innerHTML = '&nbsp;';
         }
       });
+    }
+
+    function updateCtaUrls() {
+      const period = isAnnual ? 'annual' : 'monthly';
+      document.getElementById('cta-pro').href    = LS_URLS.pro[period];
+      document.getElementById('cta-studio').href = LS_URLS.studio[period];
     }
 
     function toggleFaq(btn) {
