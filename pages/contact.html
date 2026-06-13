@@ -563,7 +563,7 @@
 </head>
 <body>
 
-<nav class="fyn-navbar fyn-over-dark">
+<nav class="fyn-navbar">
   <a href="/" class="fyn-nav-logo" aria-label="Fyntrax home"><img src="/images/logo.png" alt="Fyntrax"></a>
   <div class="fyn-nav-links">
     <a href="/">Home</a>
@@ -779,7 +779,7 @@
 <script>
 /* ══ NAVBAR SCROLL TOGGLE ══ */
 window.addEventListener('scroll', () => {
-    document.querySelector('.fyn-navbar')?.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.8);
+    document.querySelector('.fyn-navbar')?.classList.toggle('scrolled', window.scrollY > 50);
 });
 </script>
 
