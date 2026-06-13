@@ -1,609 +1,913 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coming Soon — Fyntrax</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css">
-<style>
-  :root {
-    --primary: #7C3AED;
-    --primary-light: #A78BFA;
-    --primary-dark: #5B21B6;
-    --primary-50: #F5F3FF;
-    --white: #FFFFFF;
-    --gray-50: #F9FAFB;
-    --gray-100: #F3F4F6;
-    --gray-200: #E5E7EB;
-    --gray-300: #D1D5DB;
-    --gray-400: #9CA3AF;
-    --gray-500: #6B7280;
-    --gray-600: #4B5563;
-    --gray-700: #374151;
-    --gray-800: #1F2937;
-    --gray-900: #111827;
-    --radius-sm: 6px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-full: 9999px;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Fyntrax</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #7c3aed;
+      --primary-h: #6d28d9;
+      --dark: #0f172a;
+      --g50: #f8fafc;
+      --g100: #f1f5f9;
+      --g200: #e2e8f0;
+      --g400: #94a3b8;
+      --g500: #64748b;
+      --g700: #334155;
+    }
 
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--gray-50);
-    color: var(--gray-900);
-    min-height: 100vh;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: var(--g700);
+      overflow-x: hidden;
+    }
 
-  #bg-canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-    pointer-events: none;
-  }
+    /* ─── NAVBAR ─── */
+    .navbar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 999;
+      background: rgba(248, 250, 252, 0.15);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 100px;
+      padding: 10px 10px 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
 
-  .blob {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.35;
-    pointer-events: none;
-    z-index: 1;
-  }
-  .blob-tr {
-    width: 500px; height: 500px;
-    top: -150px; right: -150px;
-    background: radial-gradient(circle, var(--primary-light), transparent 70%);
-    animation: blobFloat 8s ease-in-out infinite alternate;
-  }
-  .blob-bl {
-    width: 400px; height: 400px;
-    bottom: -100px; left: -100px;
-    background: radial-gradient(circle, #C4B5FD, transparent 70%);
-    animation: blobFloat 10s ease-in-out infinite alternate-reverse;
-  }
-  @keyframes blobFloat {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(30px, -30px) scale(1.1); }
-  }
+    .nav-logo {
+      margin-right: 20px;
+      display: flex;
+      align-items: center;
+    }
 
-  /* NAVBAR copied from homepage */
-  .nav-wrap {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 20px 40px;
-    display: flex;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(229, 231, 235, 0.5);
-  }
-  .nav-inner {
-    max-width: 1200px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .nav-logo {
-    height: 36px;
-    width: auto;
-    filter: drop-shadow(0 2px 4px rgba(124,58,237,0.15));
-    transition: transform 0.3s ease;
-  }
-  .nav-logo:hover { transform: scale(1.05); }
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-  }
-  .nav-links a {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--gray-600);
-    text-decoration: none;
-    transition: color 0.2s ease;
-    position: relative;
-  }
-  .nav-links a:hover { color: var(--primary); }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--primary);
-    border-radius: 2px;
-    transition: width 0.2s ease;
-  }
-  .nav-links a:hover::after { width: 100%; }
-  .nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .btn-ghost {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--gray-700);
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--gray-200);
-    background: transparent;
-    transition: all 0.2s ease;
-  }
-  .btn-ghost:hover {
-    background: var(--gray-100);
-    border-color: var(--gray-300);
-  }
-  .btn-primary {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--white);
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: var(--radius-full);
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    border: none;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 14px rgba(124,58,237,0.25);
-  }
-  .btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(124,58,237,0.35);
-  }
+    .nav-logo img {
+      height: 26px;
+      display: block;
+    }
 
-  .main {
-    position: relative;
-    z-index: 10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 120px 24px 80px;
-    text-align: center;
-  }
+    .navbar a {
+      color: rgba(255, 255, 255, 0.55);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 7px 15px;
+      border-radius: 100px;
+      transition: color .3s, background .3s;
+    }
 
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, var(--primary-50), #FEF3C7);
-    border: 1px solid var(--primary-light);
-    color: var(--primary-dark);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 8px 18px;
-    border-radius: var(--radius-full);
-    box-shadow: 0 4px 16px rgba(124,58,237,0.08);
-    animation: fadeInUp 0.6s ease-out 0.2s both;
-  }
-  .status-badge .pulse {
-    width: 8px; height: 8px;
-    background: var(--primary);
-    border-radius: 50%;
-    position: relative;
-  }
-  .status-badge .pulse::after {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    background: var(--primary);
-    opacity: 0.4;
-    animation: pulseRing 2s ease-out infinite;
-  }
-  @keyframes pulseRing {
-    0% { transform: scale(0.8); opacity: 0.4; }
-    100% { transform: scale(2.2); opacity: 0; }
-  }
+    .navbar a:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
 
-  .headline {
-    font-size: clamp(40px, 6vw, 72px);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    color: var(--gray-900);
-    margin-bottom: 20px;
-    animation: fadeInUp 0.6s ease-out 0.4s both;
-  }
-  .headline span {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+    .navbar a.active {
+      color: #fff;
+      background: rgba(124, 58, 237, 0.35);
+    }
 
-  .subheadline {
-    font-size: clamp(16px, 2vw, 20px);
-    color: var(--gray-500);
-    line-height: 1.6;
-    max-width: 560px;
-    margin: 0 auto 48px;
-    animation: fadeInUp 0.6s ease-out 0.6s both;
-  }
+    .navbar.scrolled a {
+      color: #64748b;
+    }
 
-  .countdown-wrap {
-    display: flex;
-    align-items: center;
-    justify-center: center;
-    gap: 16px;
-    margin-bottom: 48px;
-    animation: fadeInUp 0.6s ease-out 0.8s both;
-  }
-  .time-box {
-    background: var(--white);
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-lg);
-    padding: 20px 28px;
-    min-width: 88px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.04);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .time-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(124,58,237,0.1);
-    border-color: var(--primary-light);
-  }
-  .time-digit {
-    display: block;
-    font-size: 36px;
-    font-weight: 800;
-    color: var(--gray-900);
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-  .time-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--gray-400);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-top: 6px;
-  }
-  .time-sep {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--gray-300);
-    margin-top: -12px;
-  }
+    .navbar.scrolled a:hover {
+      color: #0f172a;
+      background: rgba(124, 58, 237, 0.1);
+    }
 
-  .cta-wrap {
-    animation: fadeInUp 0.6s ease-out 1s both;
-  }
-  .btn-hero {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    padding: 14px 32px;
-    border: none;
-    border-radius: var(--radius-full);
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 20px rgba(124,58,237,0.3);
-  }
-  .btn-hero:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(124,58,237,0.4);
-  }
-  .btn-hero:active { transform: translateY(0); }
+    .navbar.scrolled a.active {
+      color: #0f172a;
+      background: #f1f5f9;
+    }
 
-  .footer-links {
-    margin-top: 48px;
-    display: flex;
-    gap: 32px;
-    animation: fadeInUp 0.6s ease-out 1.2s both;
-  }
-  .footer-links a {
-    color: var(--gray-400);
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .footer-links a:hover { color: var(--primary); }
+    .navbar .nav-cta {
+      background: var(--primary);
+      color: #fff !important;
+      font-weight: 600 !important;
+      margin-left: 8px;
+    }
 
-  .social-strip {
-    margin-top: 64px;
-    animation: fadeInUp 0.6s ease-out 1.4s both;
-  }
-  .social-strip p {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--gray-400);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 20px;
-  }
-  .social-logos {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-  }
-  .social-logos span {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--gray-300);
-    transition: color 0.3s ease;
-    cursor: default;
-  }
-  .social-logos span:hover { color: var(--gray-500); }
+    .navbar .nav-cta:hover {
+      background: var(--primary-h) !important;
+    }
 
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+    /* ─── HERO ─── */
+    .hero {
+      background: var(--dark);
+      min-height: 55vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
 
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .nav-wrap { padding: 16px 20px; }
-    .nav-logo { height: 30px; }
-    .main { padding: 100px 20px 60px; }
-    .countdown-wrap { gap: 8px; }
-    .time-box { padding: 14px 18px; min-width: 68px; }
-    .time-digit { font-size: 28px; }
-    .time-label { font-size: 10px; }
-    .time-sep { font-size: 20px; }
-    .footer-links { gap: 20px; flex-wrap: wrap; justify-content: center; }
-    .social-logos { gap: 24px; }
-  }
-</style>
+    .hero-dots {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(124, 58, 237, .22) 1px, transparent 1px);
+      background-size: 30px 30px;
+      mask-image: radial-gradient(ellipse 85% 65% at 50% 50%, black, transparent);
+      -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 50%, black, transparent);
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(124, 58, 237, .12) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(124, 58, 237, .12);
+      border: 1px solid rgba(124, 58, 237, .3);
+      color: #c4b5fd;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border-radius: 100px;
+      margin-bottom: 36px;
+    }
+
+    .badge-pulse {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #7c3aed;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: .4;
+        transform: scale(1.4);
+      }
+    }
+
+    .hero-title {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(36px, 5.5vw, 64px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.12;
+      letter-spacing: -.035em;
+      max-width: 800px;
+      margin-bottom: 20px;
+    }
+
+    .hero-sub {
+      position: relative;
+      z-index: 1;
+      font-size: 18px;
+      color: rgba(255, 255, 255, .45);
+      max-width: 560px;
+      line-height: 1.75;
+    }
+
+    /* ─── CATEGORY TABS ─── */
+    .tabs-section {
+      padding: 40px 24px 0;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .tabs-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--g200);
+    }
+
+    .tab {
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--g500);
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all .2s;
+      text-decoration: none;
+    }
+
+    .tab:hover {
+      color: var(--dark);
+      background: var(--g100);
+    }
+
+    .tab.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* ─── BLOG GRID ─── */
+    .blog-section {
+      padding: 48px 24px 100px;
+      background: #fff;
+    }
+
+    .blog-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    /* Featured */
+    .featured-card {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 48px;
+      background: var(--g50);
+      border: 1px solid var(--g200);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 40px;
+      align-items: center;
+      transition: box-shadow .3s, border-color .3s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .featured-card:hover {
+      box-shadow: 0 16px 48px rgba(124, 58, 237, .08);
+      border-color: rgba(124, 58, 237, .2);
+    }
+
+    .featured-visual {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .featured-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255, 255, 255, .12) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .featured-visual svg {
+      width: 64px;
+      height: 64px;
+      color: rgba(255, 255, 255, .9);
+      position: relative;
+      z-index: 1;
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(255, 255, 255, .15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, .2);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+      z-index: 2;
+    }
+
+    .featured-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .featured-title {
+      font-size: clamp(22px, 2.5vw, 28px);
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.25;
+      letter-spacing: -.02em;
+    }
+
+    .featured-excerpt {
+      font-size: 16px;
+      color: var(--g500);
+      line-height: 1.75;
+    }
+
+    .featured-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .featured-meta .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--g400);
+    }
+
+    /* Article Grid */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .article-card {
+      background: #fff;
+      border: 1px solid var(--g200);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), #a78bfa);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .4s;
+    }
+
+    .article-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(124, 58, 237, .08);
+      border-color: rgba(124, 58, 237, .18);
+    }
+
+    .article-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .article-thumb {
+      width: 100%;
+      height: 160px;
+      border-radius: 12px;
+      background: var(--g100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-thumb svg {
+      width: 36px;
+      height: 36px;
+      color: var(--g400);
+    }
+
+    .article-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.35;
+      letter-spacing: -.01em;
+    }
+
+    .article-excerpt {
+      font-size: 14px;
+      color: var(--g500);
+      line-height: 1.7;
+      flex-grow: 1;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .article-meta .dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--g400);
+    }
+
+    /* ─── BOTTOM STRIP ─── */
+    .bottom-strip {
+      padding: 60px 24px;
+      background: var(--dark);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bottom-strip-dots {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(124, 58, 237, .18) 1px, transparent 1px);
+      background-size: 26px 26px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+      -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+    }
+
+    .bottom-strip-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .bottom-strip p {
+      font-size: 18px;
+      color: rgba(255, 255, 255, .55);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .bottom-strip a {
+      color: #c4b5fd;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color .2s;
+    }
+
+    .bottom-strip a:hover {
+      color: #fff;
+    }
+
+    .bottom-strip a svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(255, 255, 255, .06);
+      padding: 44px 24px;
+    }
+
+    .footer-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo img {
+      height: 22px;
+      opacity: .55;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .28);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 22px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .28);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: rgba(255, 255, 255, .65);
+    }
+
+    /* ─── REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .6s, transform .6s;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 920px) {
+      .featured-card {
+        grid-template-columns: 1fr;
+      }
+
+      .articles-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .navbar {
+        width: calc(100% - 32px);
+        padding: 8px 8px 8px 18px;
+      }
+
+      .articles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-card {
+        padding: 24px;
+      }
+
+      .tabs-inner {
+        gap: 6px;
+      }
+
+      .tab {
+        padding: 6px 14px;
+        font-size: 13px;
+      }
+    }
+  </style>
+  <base target="_blank">
 </head>
+
 <body>
 
-<canvas id="bg-canvas"></canvas>
-<div class="blob blob-tr"></div>
-<div class="blob blob-bl"></div>
-
-<!-- ═══ NAVBAR ═══ -->
-<nav class="fyn-navbar">
-  <a href="/" class="fyn-nav-logo" aria-label="Fyntrax home"><img src="/images/logo.png" alt="Fyntrax"></a>
-  <div class="fyn-nav-links">
-    <a href="/">Home</a>
-    <a href="/features">Features</a>
-    <a href="/pricing">Pricing</a>
-    <a href="/demo">Demo</a>
-    <a href="/about">About</a>
-    <a href="/blog" class="active">Blog</a>
-  </div>
-  <div class="fyn-nav-actions">
-    <a href="/login" class="fyn-nav-auth">Sign in</a>
-    <a href="https://join.fyntrax.site" class="fyn-nav-cta">Get Started</a>
-  </div>
-</nav>
-
-<!-- ═══ HERO ═══ -->
-
-<!-- ═══ HERO ═══ --><main class="main">
-
-  <div class="status-badge">
-    <span class="pulse"></span>
-    Coming Soon
-  </div>
-
-  <h1 class="headline">
-    Something <span>brilliant</span><br>is brewing.
-  </h1>
-
-  <p class="subheadline">
-    We are crafting this experience with the same care we put into every journal entry.
-    Check back soon, or explore what is already live.
-  </p>
-
-  <div class="countdown-wrap">
-    <div class="time-box">
-      <span class="time-digit" id="days">00</span>
-      <span class="time-label">Days</span>
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="fyn-navbar fyn-over-dark">
+    <a href="/" class="fyn-nav-logo" aria-label="Fyntrax home"><img src="/images/logo.png" alt="Fyntrax"></a>
+    <div class="fyn-nav-links">
+      <a href="/">Home</a>
+      <a href="/features">Features</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/demo">Demo</a>
+      <a href="/about">About</a>
+      <a href="/blog" class="active">Blog</a>
     </div>
-    <span class="time-sep">:</span>
-    <div class="time-box">
-      <span class="time-digit" id="hours">00</span>
-      <span class="time-label">Hours</span>
+    <div class="fyn-nav-actions">
+      <a href="/login" class="fyn-nav-auth">Sign in</a>
+      <a href="https://join.fyntrax.site" class="fyn-nav-cta">Get Started</a>
     </div>
-    <span class="time-sep">:</span>
-    <div class="time-box">
-      <span class="time-digit" id="minutes">00</span>
-      <span class="time-label">Minutes</span>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-dots"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-badge"><span class="badge-pulse"></span>Blog</div>
+    <h1 class="hero-title">Thinking clearly about your finances.</h1>
+    <p class="hero-sub">Practical guides, accounting explainers, and product updates — written for business owners, not
+      accountants.</p>
+  </section>
+
+  <!-- ═══ CATEGORY TABS ═══ -->
+  <section class="tabs-section">
+    <div class="tabs-inner">
+      <button class="tab active" data-filter="all">All</button>
+      <button class="tab" data-filter="guides">Guides</button>
+      <button class="tab" data-filter="bookkeeping">Bookkeeping</button>
+      <button class="tab" data-filter="tax">Tax</button>
+      <button class="tab" data-filter="product">Product Updates</button>
+      <button class="tab" data-filter="ai">AI & Accounting</button>
     </div>
-    <span class="time-sep">:</span>
-    <div class="time-box">
-      <span class="time-digit" id="seconds">00</span>
-      <span class="time-label">Seconds</span>
+  </section>
+
+  <!-- ═══ BLOG GRID ═══ -->
+  <section class="blog-section">
+    <div class="blog-inner">
+
+      <!-- Featured -->
+      <a href="#" class="featured-card reveal" data-category="bookkeeping">
+        <div class="featured-visual">
+          <span class="featured-badge">Featured</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+            <polyline points="10 9 9 9 8 9" />
+          </svg>
+        </div>
+        <div class="featured-content">
+          <h2 class="featured-title">Why most small businesses are doing accrual accounting wrong (and don't know it)
+          </h2>
+          <p class="featured-excerpt">Cash basis feels simpler — until it isn't. Here's what switches when you move to
+            proper accrual, and why it matters more than your accountant lets on.</p>
+          <div class="featured-meta">
+            <span>Bookkeeping</span>
+            <span class="dot"></span>
+            <span>6 min read</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Articles Grid -->
+      <div class="articles-grid">
+
+        <a href="#" class="article-card reveal" data-category="guides">
+          <div class="article-thumb" style="background: linear-gradient(135deg, #f1f5f9, #e2e8f0);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M12 20V10M18 20V4M6 20v-4" />
+            </svg>
+          </div>
+          <h3 class="article-title">The P&L isn't telling you what you think it is</h3>
+          <p class="article-excerpt">Most business owners read their Profit & Loss statement backwards. Here's the right
+            way.</p>
+          <div class="article-meta">
+            <span>Guides</span>
+            <span class="dot"></span>
+            <span>4 min read</span>
+          </div>
+        </a>
+
+        <a href="#" class="article-card reveal" data-category="tax">
+          <div class="article-thumb" style="background: linear-gradient(135deg, #fef3c7, #fde68a);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <path d="M8 21h8M12 17v4" />
+            </svg>
+          </div>
+          <h3 class="article-title">GST filing without the headache: a step-by-step</h3>
+          <p class="article-excerpt">What to track, when to file, and what Fyntrax does automatically so you don't have
+            to.</p>
+          <div class="article-meta">
+            <span>Tax</span>
+            <span class="dot"></span>
+            <span>5 min read</span>
+          </div>
+        </a>
+
+        <a href="#" class="article-card reveal" data-category="ai">
+          <div class="article-thumb" style="background: linear-gradient(135deg, #ede9fe, #ddd6fe);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-4M12 8h.01" />
+            </svg>
+          </div>
+          <h3 class="article-title">What a bookkeeping AI should actually be able to do</h3>
+          <p class="article-excerpt">Spoiler: renaming categories doesn't count. Here's the bar we set for Fyntrax's
+            agent.</p>
+          <div class="article-meta">
+            <span>AI & Accounting</span>
+            <span class="dot"></span>
+            <span>7 min read</span>
+          </div>
+        </a>
+
+        <a href="#" class="article-card reveal" data-category="bookkeeping">
+          <div class="article-thumb" style="background: linear-gradient(135deg, #ecfdf5, #d1fae5);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+          </div>
+          <h3 class="article-title">Journal entries explained — without the jargon</h3>
+          <p class="article-excerpt">A plain-language breakdown of double-entry bookkeeping for people who never studied
+            it.</p>
+          <div class="article-meta">
+            <span>Bookkeeping</span>
+            <span class="dot"></span>
+            <span>8 min read</span>
+          </div>
+        </a>
+
+        <a href="#" class="article-card reveal" data-category="product">
+          <div class="article-thumb" style="background: linear-gradient(135deg, #eff6ff, #bfdbfe);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <h3 class="article-title">Invoice faster: Fyntrax invoicing walkthrough</h3>
+          <p class="article-excerpt">From draft to sent in under two minutes. A quick look at how invoicing works in
+            Pro.</p>
+          <div class="article-meta">
+            <span>Product Updates</span>
+            <span class="dot"></span>
+            <span>3 min read</span>
+          </div>
+        </a>
+
+        <a href="#" class="article-card reveal" data-category="guides">
+          <div class="article-thumb" style="background: linear-gradient(135deg, #fff7ed, #fed7aa);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+          </div>
+          <h3 class="article-title">Cash flow vs profit: what's the actual difference?</h3>
+          <p class="article-excerpt">You can be profitable and broke at the same time. Here's why — and how to fix it.
+          </p>
+          <div class="article-meta">
+            <span>Guides</span>
+            <span class="dot"></span>
+            <span>5 min read</span>
+          </div>
+        </a>
+
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div class="cta-wrap">
-    <a href="/" class="btn-hero">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
-      Back to Homepage
-    </a>
-  </div>
-
-  <div class="footer-links">
-    <a href="/">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2 2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
-      Homepage
-    </a>
-    <a href="/pricing">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="12" y1="1" x2="12" y2="23"/>
-        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 0 0 7H6"/>
-      </svg>
-      Pricing
-    </a>
-    <a href="/demo">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="5 3 19 12 5 21 5 3"/>
-      </svg>
-      Watch Demo
-    </a>
-    <a href="mailto:hello@fyntrax.site">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-      </svg>
-      Contact
-    </a>
-  </div>
-
-  <div class="social-strip">
-    <p>Trusted by forward-thinking teams</p>
-    <div class="social-logos">
-      <span>Acme Studio</span>
-      <span>Northgate LLC</span>
-      <span>Bright & Co</span>
-      <span>Vela Creative</span>
-      <span>Orion Labs</span>
+  <!-- ═══ BOTTOM STRIP ═══ -->
+  <section class="bottom-strip">
+    <div class="bottom-strip-dots"></div>
+    <div class="bottom-strip-inner">
+      <p>More articles coming weekly. Want a topic covered?</p>
+      <a href="mailto:hello@fyntrax.site">
+        hello@fyntrax.site
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
     </div>
-  </div>
+  </section>
 
-</main>
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="fyn-footer">
+    <div class="fyn-footer-shell">
+      <div class="fyn-footer-card">
+        <div class="fyn-footer-brand">
+          <a href="/" aria-label="Fyntrax home"><img src="/images/logo.png" alt="Fyntrax"></a>
+          <p>Accounting software that thinks with you. Built for small businesses that deserve clean books without
+            bloated tools.</p>
+        </div>
+        <div class="fyn-footer-links">
+          <div class="fyn-footer-col">
+            <h4>Product</h4>
+            <a href="/features">Features</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/demo">Demo</a>
+            <a href="/features/ai-agent">AI Agent</a>
+          </div>
+          <div class="fyn-footer-col">
+            <h4>Company</h4>
+            <a href="/about">About</a>
+            <a href="/about/story">Story</a>
+            <a href="/blog">Blog</a>
+            <a href="/contact">Contact</a>
+          </div>
+          <div class="fyn-footer-col">
+            <h4>Resources</h4>
+            <a href="/features/invoicing">Invoicing</a>
+            <a href="/features/reports">Reports</a>
+            <a href="/blog/articles">Articles</a>
+            <a href="/blog/guides">Guides</a>
+          </div>
+        </div>
+      </div>
+      <div class="fyn-footer-bottom">
+        <div class="fyn-footer-legal">
+          <span>&copy; 2026 Fyntrax. All rights reserved.</span>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms</a>
+        </div>
+        <div class="fyn-footer-social">
+          <a href="#" aria-label="Fyntrax on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.23 0z" />
+            </svg></a>
+          <a href="#" aria-label="Fyntrax on X"><svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64z" />
+            </svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-<script>
-  const targetDate = new Date('2026-06-01T00:00:00').getTime();
+  <script>
+    /* ══ NAVBAR SCROLL TOGGLE ══ */
+    window.addEventListener('scroll', () => {
+      document.querySelector('.fyn-navbar')?.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.5);
+    });
 
-  function updateCountdown() {
-    const now = new Date().getTime();
-    const diff = targetDate - now;
-    if (diff <= 0) {
-      ['days','hours','minutes','seconds'].forEach(id => {
-        document.getElementById(id).textContent = '00';
+    /* ══ CATEGORY FILTERING ══ */
+    (function () {
+      const tabs = document.querySelectorAll('.tab');
+      const cards = document.querySelectorAll('.article-card, .featured-card');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          const filter = tab.dataset.filter;
+
+          cards.forEach(card => {
+            const cat = card.dataset.category;
+            if (filter === 'all' || cat === filter) {
+              card.style.display = '';
+              card.style.opacity = '0';
+              card.style.transform = 'translateY(20px)';
+              setTimeout(() => {
+                card.style.transition = 'opacity .4s, transform .4s';
+                card.style.opacity = '1';
+                card.style.transform = 'none';
+              }, 50);
+            } else {
+              card.style.opacity = '0';
+              card.style.transform = 'translateY(20px)';
+              setTimeout(() => { card.style.display = 'none'; }, 300);
+            }
+          });
+        });
       });
-      return;
-    }
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    document.getElementById('days').textContent = String(days).padStart(2, '0');
-    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
+    })();
 
-  (function() {
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    const particleCount = 40;
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-    class Particle {
-      constructor() { this.reset(); }
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
-        this.opacity = Math.random() * 0.15 + 0.05;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-          this.reset();
-        }
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(124, 58, 237, ' + this.opacity + ')';
-        ctx.fill();
-      }
-    }
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => { p.update(); p.draw(); });
-      requestAnimationFrame(animate);
-    }
-    animate();
-  })();
-</script>
-
-<footer class="fyn-footer">
-  <div class="fyn-footer-shell">
-    <div class="fyn-footer-card">
-      <div class="fyn-footer-brand">
-        <a href="/" aria-label="Fyntrax home"><img src="/images/logo.png" alt="Fyntrax"></a>
-        <p>Accounting software that thinks with you. Built for small businesses that deserve clean books without bloated tools.</p>
-      </div>
-      <div class="fyn-footer-links">
-        <div class="fyn-footer-col">
-          <h4>Product</h4>
-          <a href="/features">Features</a>
-          <a href="/pricing">Pricing</a>
-          <a href="/demo">Demo</a>
-          <a href="/features/ai-agent">AI Agent</a>
-        </div>
-        <div class="fyn-footer-col">
-          <h4>Company</h4>
-          <a href="/about">About</a>
-          <a href="/about/story">Story</a>
-          <a href="/blog">Blog</a>
-          <a href="/contact">Contact</a>
-        </div>
-        <div class="fyn-footer-col">
-          <h4>Resources</h4>
-          <a href="/features/invoicing">Invoicing</a>
-          <a href="/features/reports">Reports</a>
-          <a href="/blog/articles">Articles</a>
-          <a href="/blog/guides">Guides</a>
-        </div>
-      </div>
-    </div>
-    <div class="fyn-footer-bottom">
-      <div class="fyn-footer-legal">
-        <span>&copy; 2026 Fyntrax. All rights reserved.</span>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms</a>
-      </div>
-      <div class="fyn-footer-social">
-        <a href="#" aria-label="Fyntrax on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.23 0z"/></svg></a>
-        <a href="#" aria-label="Fyntrax on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64z"/></svg></a>
-      </div>
-    </div>
-  </div>
-</footer>
-<script src="/js/script.js"></script>
+    /* ══ SCROLL REVEAL ══ */
+    (function () {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach((e, i) => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach((el, i) => {
+        el.style.transitionDelay = (i % 3) * 90 + 'ms';
+        obs.observe(el);
+      });
+    })();
+  </script>
+  <script src="/js/script.js"></script>
 </body>
+
 </html>
