@@ -14,6 +14,7 @@
     { "source": "/blog", "destination": "/pages/blog/index.html" },
     { "source": "/blog/articles", "destination": "/pages/blog/articles.html" },
     { "source": "/blog/guides", "destination": "/pages/blog/guides.html" },
+    { "source": "/blog/accrual-accounting", "destination": "/pages/blog/accrual-accounting.html" },
     { "source": "/demo", "destination": "/pages/demo/index.html" },
     { "source": "/contact", "destination": "/pages/contact.html" },
     { "source": "/register", "destination": "/pages/auth/register.html" },
