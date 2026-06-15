@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why most small businesses are doing accrual accounting wrong — Fyntrax Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #7c3aed;
+      --primary-h: #6d28d9;
+      --dark: #0f172a;
+      --g50: #f8fafc;
+      --g100: #f1f5f9;
+      --g200: #e2e8f0;
+      --g400: #94a3b8;
+      --g500: #64748b;
+      --g700: #334155;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: var(--g700);
+      overflow-x: hidden;
+    }
+
+    /* ─── BLOG HERO ─── */
+    .article-hero {
+      background: var(--dark);
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-dots {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(124, 58, 237, .22) 1px, transparent 1px);
+      background-size: 30px 30px;
+      mask-image: radial-gradient(ellipse 85% 65% at 50% 50%, black, transparent);
+      -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 50%, black, transparent);
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(124, 58, 237, .12) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .article-meta-top {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: #c4b5fd;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: -.035em;
+      max-width: 900px;
+      margin-bottom: 24px;
+    }
+
+    .hero-sub {
+      position: relative;
+      z-index: 1;
+      font-size: 19px;
+      color: rgba(255, 255, 255, .55);
+      max-width: 680px;
+      line-height: 1.6;
+    }
+
+    /* ─── ARTICLE CONTENT ─── */
+    .article-body {
+      padding: 80px 24px;
+      background: #fff;
+    }
+
+    .article-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .content-block {
+      margin-bottom: 40px;
+    }
+
+    .content-block h2 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .content-block p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #475569;
+      margin-bottom: 24px;
+    }
+
+    .content-block strong {
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .pull-quote {
+      background: var(--g50);
+      border-left: 4px solid var(--primary);
+      padding: 32px;
+      margin: 48px 0;
+      border-radius: 0 12px 12px 0;
+    }
+
+    .pull-quote p {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark);
+      line-height: 1.6;
+      margin-bottom: 0;
+      font-style: italic;
+    }
+
+    /* ─── AUTHOR BOX ─── */
+    .author-box {
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid var(--g200);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .author-img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .author-info h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .author-info p {
+      font-size: 14px;
+      color: var(--g500);
+    }
+
+    /* ─── RELATED POSTS ─── */
+    .related-section {
+      background: var(--g50);
+      padding: 80px 24px;
+      border-top: 1px solid var(--g200);
+    }
+
+    .related-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .related-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .related-header h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--dark);
+    }
+
+    .related-header a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .related-card {
+      background: #fff;
+      border: 1px solid var(--g200);
+      border-radius: 16px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform .3s, box-shadow .3s;
+    }
+
+    .related-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .related-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .related-card .meta {
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="fyn-navbar fyn-over-dark">
+    <a href="/" class="fyn-nav-logo" aria-label="Fyntrax home"><img src="/images/logo.png" alt="Fyntrax"></a>
+    <div class="fyn-nav-links">
+      <a href="/">Home</a>
+      <a href="/features">Features</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/demo">Demo</a>
+      <a href="/about">About</a>
+      <a href="/blog" class="active">Blog</a>
+    </div>
+    <div class="fyn-nav-actions">
+      <a href="/login" class="fyn-nav-auth">Sign in</a>
+      <a href="https://join.fyntrax.site" class="fyn-nav-cta">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- ═══ ARTICLE HERO ═══ -->
+  <header class="article-hero">
+    <div class="hero-dots"></div>
+    <div class="hero-glow"></div>
+
+    <div class="article-meta-top">
+      <span>Bookkeeping</span>
+      <span style="opacity: 0.3;">|</span>
+      <span>6 min read</span>
+    </div>
+
+    <h1 class="hero-title">Why most small businesses are doing accrual accounting wrong (and don't know it)</h1>
+    <p class="hero-sub">Cash basis feels simpler — until it isn't. Here's what switches when you move to proper accrual, and why it matters more than your accountant lets on.</p>
+  </header>
+
+  <!-- ═══ ARTICLE BODY ═══ -->
+  <main class="article-body">
+    <article class="article-inner">
+
+      <div class="content-block">
+        <p>If you ask most small business owners how they track their money, they'll describe <strong>cash basis accounting</strong>. Money comes in, it's revenue. Money goes out, it's an expense. It's intuitive because it's how we manage our personal bank accounts.</p>
+        <p>But as a business grows, cash basis starts to lie to you. It creates "lumpy" financial statements where you look incredibly profitable one month (because a big client paid three invoices at once) and deeply in the red the next (because you paid your annual insurance premium).</p>
+        <p>This is where <strong>accrual accounting</strong> comes in. And it's where most people get it wrong.</p>
+      </div>
+
+      <div class="content-block">
+        <h2>The Matching Principle: The Core of Accrual</h2>
+        <p>The biggest misconception about accrual accounting is that it's just about "tracking what you're owed." That's only half of it. The real power of accrual is the <strong>Matching Principle</strong>.</p>
+        <p>The Matching Principle dictates that expenses should be recognized in the same period as the revenues they helped generate. If you buy $5,000 worth of inventory in January but don't sell it until March, a cash-basis P&L shows a $5,000 loss in January and pure profit in March. An accrual-basis P&L matches that cost to the sale, giving you a true view of your margins.</p>
+      </div>
+
+      <div class="pull-quote">
+        <p>"Accrual accounting isn't about tracking cash; it's about tracking the economic reality of your business, regardless of when the bank balance moves."</p>
+      </div>
+
+      <div class="content-block">
+        <h2>Where the "Wrong" Happens</h2>
+        <p>Most "accrual" setups in small business software are actually just <strong>modified cash basis</strong>. They track Accounts Receivable and Accounts Payable, but they miss the critical adjustments that make accrual useful:</p>
+        <p>
+          <strong>1. Prepaid Expenses:</strong> Paying for a year of software upfront? That shouldn't hit your P&L in month one. It should be an asset on your balance sheet, with 1/12th moved to expenses each month.<br><br>
+          <strong>2. Unearned Revenue:</strong> If a client pays you $10,000 today for work you'll do over the next six months, you haven't "earned" that money yet. In proper accrual, that's a liability until the work is performed.<br><br>
+          <strong>3. Accrued Liabilities:</strong> These are expenses you've incurred but haven't been billed for yet. If your team worked the last week of December but you don't pay them until January, that labor cost belongs in December's books.
+        </p>
+      </div>
+
+      <div class="content-block">
+        <h2>Why It Matters for Your Growth</h2>
+        <p>Why go through the trouble? Because <strong>investors, lenders, and buyers</strong> don't look at cash-basis books. They want to see the underlying performance of the engine, not the timing of the gas tank refills.</p>
+        <p>More importantly, it helps <em>you</em> make better decisions. When you see your true monthly burn rate and your real gross margins, you can project cash flow with far more accuracy than you ever could just by looking at your bank balance.</p>
+      </div>
+
+      <div class="author-box">
+        <div class="author-img">F</div>
+        <div class="author-info">
+          <h4>The Fyntrax Team</h4>
+          <p>Writing about clean books and better business decisions.</p>
+        </div>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- ═══ RELATED POSTS ═══ -->
+  <section class="related-section">
+    <div class="related-inner">
+      <div class="related-header">
+        <h2>Continue Reading</h2>
+        <a href="/blog">View all posts →</a>
+      </div>
+      <div class="related-grid">
+        <a href="#" class="related-card">
+          <span class="meta">Guides</span>
+          <h3>The P&L isn't telling you what you think it is</h3>
+        </a>
+        <a href="#" class="related-card">
+          <span class="meta">Bookkeeping</span>
+          <h3>Journal entries explained — without the jargon</h3>
+        </a>
+        <a href="#" class="related-card">
+          <span class="meta">Guides</span>
+          <h3>Cash flow vs profit: what's the actual difference?</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="fyn-footer">
+    <div class="fyn-footer-shell">
+      <div class="fyn-footer-card">
+        <div class="fyn-footer-brand">
+          <a href="/" aria-label="Fyntrax home"><img src="/images/logo.png" alt="Fyntrax"></a>
+          <p>Accounting software that thinks with you. Built for small businesses that deserve clean books without bloated tools.</p>
+        </div>
+        <div class="fyn-footer-links">
+          <div class="fyn-footer-col">
+            <h4>Product</h4>
+            <a href="/features">Features</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/demo">Demo</a>
+            <a href="/features/ai-agent">AI Agent</a>
+          </div>
+          <div class="fyn-footer-col">
+            <h4>Company</h4>
+            <a href="/about">About</a>
+            <a href="/about/story">Story</a>
+            <a href="/blog">Blog</a>
+            <a href="/contact">Contact</a>
+          </div>
+          <div class="fyn-footer-col">
+            <h4>Resources</h4>
+            <a href="/features/invoicing">Invoicing</a>
+            <a href="/features/reports">Reports</a>
+            <a href="/blog/articles">Articles</a>
+            <a href="/blog/guides">Guides</a>
+          </div>
+        </div>
+      </div>
+      <div class="fyn-footer-bottom">
+        <div class="fyn-footer-legal">
+          <span>&copy; 2026 Fyntrax. All rights reserved.</span>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms</a>
+        </div>
+        <div class="fyn-footer-social">
+          <a href="#" aria-label="Fyntrax on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.23 0z" />
+            </svg></a>
+          <a href="#" aria-label="Fyntrax on X"><svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64z" />
+            </svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ══ NAVBAR SCROLL TOGGLE ══ */
+    window.addEventListener('scroll', () => {
+      document.querySelector('.fyn-navbar')?.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.4);
+    });
+  </script>
+  <script src="/js/script.js"></script>
+</body>
+
+</html>
