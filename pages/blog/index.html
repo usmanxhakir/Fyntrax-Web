@@ -606,7 +606,7 @@
 
 <body>
 
-  <!-- ═══ NAVBAR ═══ -->
+  <!-- ═══ NAVBAR (reuses your existing global nav) ═══ -->
   <nav class="fyn-navbar fyn-over-dark">
     <a href="/" class="fyn-nav-logo" aria-label="Fyntrax home"><img src="/images/logo.png" alt="Fyntrax"></a>
     <div class="fyn-nav-links">
@@ -623,15 +623,178 @@
     </div>
   </nav>
 
-  <!-- ═══ HERO ═══ -->
-  <section class="hero">
-    <div class="hero-dots"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-badge"><span class="badge-pulse"></span>Blog</div>
-    <h1 class="hero-title">Thinking clearly about your finances.</h1>
-    <p class="hero-sub">Practical guides, accounting explainers, and product updates — written for business owners, not
-      accountants.</p>
-  </section>
+  <!-- ═══ BLOG HERO HEADER ═══ -->
+  <header class="blog-hero">
+    <div class="blog-hero-dots"></div>
+    <div class="blog-hero-glow"></div>
+
+    <div class="blog-hero-inner">
+      <div class="blog-badge"><span class="badge-pulse"></span>The Fyntrax Blog</div>
+
+      <h1 class="blog-title" id="blogTitle">Accounting, explained like you run the business.</h1>
+      <p class="blog-sub">Practical guides, real bookkeeping insight, and product updates — written by someone who actually does the work.</p>
+
+      <!-- Search -->
+      <form class="blog-search" role="search" action="/blog/search" method="get">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input type="search" name="q" placeholder="Search articles, guides, topics…" aria-label="Search the blog">
+      </form>
+
+      <!-- Category pills -->
+      <div class="blog-cats">
+        <a href="/blog" class="blog-pill active">All</a>
+        <a href="/blog/articles" class="blog-pill">Articles</a>
+        <a href="/blog/guides" class="blog-pill">Guides</a>
+        <a href="/blog/category/bookkeeping" class="blog-pill">Bookkeeping</a>
+        <a href="/blog/category/taxes" class="blog-pill">Taxes</a>
+        <a href="/blog/category/product" class="blog-pill">Product</a>
+      </div>
+    </div>
+
+    <div class="blog-scroll">Latest posts</div>
+  </header>
+
+  <style>
+    /* ─── BLOG HERO (scoped, matches About page system) ─── */
+    .blog-hero {
+      background: var(--dark, #0f172a);
+      min-height: 78vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 150px 24px 110px;
+      position: relative; overflow: hidden;
+    }
+    .blog-hero-dots {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(124,58,237,.22) 1px, transparent 1px);
+      background-size: 30px 30px;
+      mask-image: radial-gradient(ellipse 85% 65% at 50% 50%, black, transparent);
+      -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 50%, black, transparent);
+    }
+    .blog-hero-glow {
+      position: absolute; width: 620px; height: 620px;
+      background: radial-gradient(circle, rgba(124,58,237,.13) 0%, transparent 70%);
+      top: 46%; left: 50%; transform: translate(-50%,-50%); pointer-events: none;
+    }
+    .blog-hero-inner { position: relative; z-index: 1; max-width: 760px; width: 100%; }
+
+    .blog-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(124,58,237,.12); border: 1px solid rgba(124,58,237,.3);
+      color: #c4b5fd; font-size: 12px; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: 7px 18px; border-radius: 100px; margin-bottom: 32px;
+    }
+    .badge-pulse { width: 6px; height: 6px; border-radius: 50%; background: #7c3aed; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(1.4);} }
+
+    .blog-title {
+      font-size: clamp(34px, 5.6vw, 60px);
+      font-weight: 800; color: #fff; line-height: 1.14;
+      letter-spacing: -.035em; margin-bottom: 22px; cursor: default;
+    }
+    .blog-title .char { display: inline-block; transition: color .08s linear, transform .08s linear; will-change: color, transform; }
+    .blog-title .sp { display: inline-block; width: .28em; }
+
+    .blog-sub {
+      font-size: 18px; color: rgba(255,255,255,.45);
+      max-width: 560px; line-height: 1.75; margin: 0 auto 40px;
+    }
+
+    /* Search */
+    .blog-search {
+      display: flex; align-items: center; gap: 12px;
+      max-width: 480px; margin: 0 auto 26px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 100px; padding: 13px 22px;
+      transition: border-color .25s, background .25s, box-shadow .25s;
+    }
+    .blog-search:focus-within {
+      border-color: rgba(124,58,237,.6);
+      background: rgba(255,255,255,.07);
+      box-shadow: 0 0 0 4px rgba(124,58,237,.15);
+    }
+    .blog-search svg { width: 18px; height: 18px; color: rgba(255,255,255,.4); flex-shrink: 0; }
+    .blog-search input {
+      flex: 1; background: none; border: none; outline: none;
+      color: #fff; font-family: inherit; font-size: 15px;
+    }
+    .blog-search input::placeholder { color: rgba(255,255,255,.38); }
+
+    /* Category pills */
+    .blog-cats { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .blog-pill {
+      font-size: 13px; font-weight: 600; text-decoration: none;
+      color: rgba(255,255,255,.55);
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1);
+      padding: 8px 18px; border-radius: 100px;
+      transition: all .25s;
+    }
+    .blog-pill:hover { color: #fff; border-color: rgba(124,58,237,.4); background: rgba(124,58,237,.12); }
+    .blog-pill.active { color: #fff; background: rgba(124,58,237,.35); border-color: rgba(124,58,237,.55); }
+
+    /* Scroll cue */
+    .blog-scroll {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 10px;
+      color: rgba(255,255,255,.2); font-size: 11px; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+    }
+    .blog-scroll::after {
+      content: ''; width: 1px; height: 44px;
+      background: linear-gradient(to bottom, rgba(124,58,237,.7), transparent);
+      animation: sdown 2s ease-in-out infinite;
+    }
+    @keyframes sdown {
+      0%{transform:scaleY(0);transform-origin:top;} 45%{transform:scaleY(1);transform-origin:top;}
+      55%{transform:scaleY(1);transform-origin:bottom;} 100%{transform:scaleY(0);transform-origin:bottom;}
+    }
+
+    @media (max-width: 640px) {
+      .blog-hero { min-height: 70vh; padding: 130px 20px 90px; }
+      .blog-sub { font-size: 16px; }
+    }
+  </style>
+
+  <script>
+  /* ══ TITLE CURSOR-PROXIMITY EFFECT (same as About hero) ══ */
+  (function () {
+    const el = document.getElementById('blogTitle');
+    if (!el) return;
+    const text = el.textContent.trim();
+    el.textContent = ''; el.setAttribute('aria-label', text);
+
+    const chars = [];
+    text.split('').forEach(ch => {
+      const s = document.createElement('span');
+      if (ch === ' ') { s.className = 'sp'; s.setAttribute('aria-hidden','true'); }
+      else { s.className = 'char'; s.textContent = ch; s.setAttribute('aria-hidden','true'); chars.push(s); }
+      el.appendChild(s);
+    });
+
+    const RADIUS = 160; let mx = -9999, my = -9999;
+    const FR = {r:255,g:255,b:255}, TO = {r:196,g:181,b:253};
+    const lerp = (a,b,t) => a + (b-a)*t;
+    window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    (function tick(){
+      chars.forEach(s => {
+        const r = s.getBoundingClientRect();
+        const cx = r.left + r.width/2, cy = r.top + r.height/2;
+        const d = Math.hypot(mx-cx, my-cy);
+        const p = Math.max(0, 1 - d/RADIUS);
+        s.style.color = `rgb(${Math.round(lerp(FR.r,TO.r,p))},${Math.round(lerp(FR.g,TO.g,p))},${Math.round(lerp(FR.b,TO.b,p))})`;
+        s.style.transform = `translateY(${-p*7}px) scale(${1+p*.09})`;
+      });
+      requestAnimationFrame(tick);
+    })();
+  })();
+  </script>
 
   <!-- ═══ CATEGORY TABS ═══ -->
   <section class="tabs-section">
